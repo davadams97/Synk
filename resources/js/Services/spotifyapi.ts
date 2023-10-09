@@ -76,5 +76,5 @@ async function getProfile() {
         },
     });
 
-    return await response.json();
+    return response.json();
 }
