@@ -7,7 +7,7 @@ use Inertia\Response;
 
 class HomePageController extends Controller
 {
-    public function index(Request $request): Response
+    public function index(): Response
     {
         return inertia('Home/Index');
     }
