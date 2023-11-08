@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 require __DIR__ . '/auth.php';
 
@@ -12,7 +13,7 @@ require __DIR__ . '/auth.php';
 Route::get('/', [HomePageController::class, 'index']);
 
 /** Spotify API Routes */
-Route::get('/redirect', function (Request $request) {
+Route::get('/auth/redirect', function (Request $request) {
     $request->session()->put('state', $state = Str::random(40));
 
     $request->session()->put(
@@ -27,7 +28,7 @@ Route::get('/redirect', function (Request $request) {
 
     $query = http_build_query([
         'client_id' => env('SPOTIFY_CLIENT_ID'),
-        'redirect_uri' => 'http://localhost:8000/access-token',
+        'redirect_uri' => 'http://localhost:8000/auth/callback',
         'response_type' => 'code',
         'scope' => 'user-read-private user-read-email',
         'state' => $state,
@@ -35,10 +36,13 @@ Route::get('/redirect', function (Request $request) {
         'code_challenge_method' => 'S256',
     ]);
 
-    return redirect('https://accounts.spotify.com/authorize?' . $query);
+    return Socialite::driver('spotify')->redirect();
+
+
+    // return redirect('https://accounts.spotify.com/authorize?' . $query);
 })->name('spotify.authorize');
 
-Route::get('/access-token', function (Request $request) {
+Route::get('auth/callback', function (Request $request) {
     $state = $request->session()->pull('state');
     $codeVerifier = $request->session()->pull('code_verifier');
  
@@ -50,7 +54,7 @@ Route::get('/access-token', function (Request $request) {
     $response = Http::asForm()->post('https://accounts.spotify.com/api/token', [
         'grant_type' => 'authorization_code',
         'client_id' => env('SPOTIFY_CLIENT_ID'),
-        'redirect_uri' => 'http://localhost:8000/access-token',
+        'redirect_uri' => 'http://localhost:8000/auth/callback',
         'code_verifier' => $codeVerifier,
         'code' => $request->code,
     ]);
