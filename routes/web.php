@@ -12,7 +12,7 @@ require __DIR__ . '/auth.php';
 Route::get('/', [HomePageController::class, 'index']);
 
 /** Spotify API Routes */
-Route::get('/redirect', function (Request $request) {
+Route::get('auth/redirect', function (Request $request) {
     $request->session()->put('state', $state = Str::random(40));
 
     $request->session()->put(
@@ -27,7 +27,7 @@ Route::get('/redirect', function (Request $request) {
 
     $query = http_build_query([
         'client_id' => env('SPOTIFY_CLIENT_ID'),
-        'redirect_uri' => 'http://localhost:8000/access-token',
+        'redirect_uri' => 'http://localhost:8000/auth/access-token',
         'response_type' => 'code',
         'scope' => 'user-read-private user-read-email',
         'state' => $state,
@@ -38,22 +38,25 @@ Route::get('/redirect', function (Request $request) {
     return redirect('https://accounts.spotify.com/authorize?' . $query);
 })->name('spotify.authorize');
 
-Route::get('/access-token', function (Request $request) {
+Route::get('auth/access-token', function (Request $request) {
     $state = $request->session()->pull('state');
     $codeVerifier = $request->session()->pull('code_verifier');
- 
+
     throw_unless(
         strlen($state) > 0 && $state === $request->state,
         InvalidArgumentException::class
     );
- 
+
     $response = Http::asForm()->post('https://accounts.spotify.com/api/token', [
         'grant_type' => 'authorization_code',
         'client_id' => env('SPOTIFY_CLIENT_ID'),
-        'redirect_uri' => 'http://localhost:8000/access-token',
+        'redirect_uri' => 'http://localhost:8000/auth/access-token',
         'code_verifier' => $codeVerifier,
         'code' => $request->code,
     ]);
- 
-    return $response->json();
+
+    session(['accessToken' => $response->json('access_token')]);
+    session(['refreshToken' => $response->json('refresh_token')]);
+
+    return redirect('/');
 })->name('spotify.accessToken');
