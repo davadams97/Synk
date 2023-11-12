@@ -54,6 +54,9 @@ Route::get('auth/access-token', function (Request $request) {
         'code_verifier' => $codeVerifier,
         'code' => $request->code,
     ]);
- 
-    return $response->json();
+
+    session(['accessToken' => $response->json('access_token')]);
+    session(['refreshToken' => $response->json('refresh_token')]);
+
+    return redirect('/');
 })->name('spotify.accessToken');
