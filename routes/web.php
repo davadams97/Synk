@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomePageController;
+use App\Http\Controllers\SpotifyController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -10,6 +11,10 @@ require __DIR__ . '/auth.php';
 
 /** Inertia Routes */
 Route::get('/', [HomePageController::class, 'index']);
+
+Route::name('spotify')->group(function() {
+    Route::name('.playlist')->get('/playlist', [SpotifyController::class, 'index']);
+});
 
 /** Spotify API Routes */
 Route::get('auth/redirect', function (Request $request) {
@@ -58,5 +63,5 @@ Route::get('auth/access-token', function (Request $request) {
     session(['accessToken' => $response->json('access_token')]);
     session(['refreshToken' => $response->json('refresh_token')]);
 
-    return redirect('/');
+    return redirect()->route('spotify.playlist');
 })->name('spotify.accessToken');
