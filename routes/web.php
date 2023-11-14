@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomePageController;
+use App\Http\Controllers\SpotifyController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -10,6 +11,10 @@ require __DIR__ . '/auth.php';
 
 /** Inertia Routes */
 Route::get('/', [HomePageController::class, 'index']);
+
+Route::name('spotify')->group(function() {
+    Route::name('.playlist')->get('/playlist', [SpotifyController::class, 'index']);
+});
 
 /** Spotify API Routes */
 Route::get('auth/redirect', function (Request $request) {
@@ -29,7 +34,7 @@ Route::get('auth/redirect', function (Request $request) {
         'client_id' => env('SPOTIFY_CLIENT_ID'),
         'redirect_uri' => 'http://localhost:8000/auth/access-token',
         'response_type' => 'code',
-        'scope' => 'user-read-private user-read-email',
+        'scope' => 'user-read-private user-read-email playlist-read-private',
         'state' => $state,
         'code_challenge' => $codeChallenge,
         'code_challenge_method' => 'S256',
@@ -55,8 +60,8 @@ Route::get('auth/access-token', function (Request $request) {
         'code' => $request->code,
     ]);
 
-    session(['accessToken' => $response->json('access_token')]);
-    session(['refreshToken' => $response->json('refresh_token')]);
+    session(['spotifyAccessToken' => $response->json('access_token')]);
+    session(['spotifyRefreshToken' => $response->json('refresh_token')]);
 
-    return redirect('/');
+    return redirect()->route('spotify.playlist');
 })->name('spotify.accessToken');
