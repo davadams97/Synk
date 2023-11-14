@@ -34,7 +34,7 @@ Route::get('auth/redirect', function (Request $request) {
         'client_id' => env('SPOTIFY_CLIENT_ID'),
         'redirect_uri' => 'http://localhost:8000/auth/access-token',
         'response_type' => 'code',
-        'scope' => 'user-read-private user-read-email',
+        'scope' => 'user-read-private user-read-email playlist-read-private',
         'state' => $state,
         'code_challenge' => $codeChallenge,
         'code_challenge_method' => 'S256',
@@ -60,8 +60,8 @@ Route::get('auth/access-token', function (Request $request) {
         'code' => $request->code,
     ]);
 
-    session(['accessToken' => $response->json('access_token')]);
-    session(['refreshToken' => $response->json('refresh_token')]);
+    session(['spotifyAccessToken' => $response->json('access_token')]);
+    session(['spotifyRefreshToken' => $response->json('refresh_token')]);
 
     return redirect()->route('spotify.playlist');
 })->name('spotify.accessToken');
