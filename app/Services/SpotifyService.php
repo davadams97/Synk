@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Http;
 class SpotifyService {
     public function getProfile()
     {
-        return Http::withToken(session('spotifyAccessToken'))->get('https://api.spotify.com/v1/me')->json();
+        return Http::spotify()->get('/')->json();
     }
 
     public function getPlaylists()
     {
-        return Http::withToken(session('spotifyAccessToken'))->get('https://api.spotify.com/v1/me/playlists')['items'];
+        return Http::spotify()->get('/playlists')['items'];
     }
 }
