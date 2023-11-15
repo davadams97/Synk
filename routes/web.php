@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SpotifyController;
+use App\Http\Controllers\YoutubeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -12,8 +13,10 @@ require __DIR__ . '/auth.php';
 /** Inertia Routes */
 Route::get('/', [HomePageController::class, 'index']);
 
-Route::name('spotify')->group(function() {
-    Route::name('.playlist')->get('/playlist', [SpotifyController::class, 'index']);
+Route::name('spotify')->group(function () {
+    Route::name('.playlist')->get('/spotify/playlist', [SpotifyController::class, 'index']);
+});
+
 Route::name('youtube')->group(function () {
     Route::name('.playlist')->get('/youtube/playlist', [YoutubeController::class, 'index']);
 });
