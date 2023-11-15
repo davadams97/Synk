@@ -2,29 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Http;
+use App\Services\SpotifyService;
 use Inertia\Response;
 
 class SpotifyController extends Controller
 {
+
+    public function __construct(protected SpotifyService $spotifyService)
+    {
+    }
+
     public function index(): Response
     {
-        $userName = $this->getProfile()["display_name"];
-        $playlists = array_map(fn ($playlist) => $playlist['name'], $this->getPlaylists());
+        $userName = $this->spotifyService->getProfile()["display_name"];
+        $playlists = array_map(fn ($playlist) => $playlist['name'], $this->spotifyService->getPlaylists());
 
         return inertia('Spotify/Index', [
             'userName' => $userName,
             'playlists' => $playlists
         ]);
-    }
-
-    public function getProfile()
-    {
-        return Http::withToken(session('spotifyAccessToken'))->get('https://api.spotify.com/v1/me')->json();
-    }
-
-    public function getPlaylists()
-    {
-        return Http::withToken(session('spotifyAccessToken'))->get('https://api.spotify.com/v1/me/playlists')['items'];
     }
 }
