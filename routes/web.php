@@ -14,6 +14,8 @@ Route::get('/', [HomePageController::class, 'index']);
 
 Route::name('spotify')->group(function() {
     Route::name('.playlist')->get('/playlist', [SpotifyController::class, 'index']);
+Route::name('youtube')->group(function () {
+    Route::name('.playlist')->get('/youtube/playlist', [YoutubeController::class, 'index']);
 });
 
 /** Spotify API Routes */
