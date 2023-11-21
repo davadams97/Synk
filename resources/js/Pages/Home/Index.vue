@@ -20,7 +20,7 @@ const buttonConfig = [
     {
         providerName: "Youtube Music",
         label: "Connect to Youtube Music",
-        href: "/",
+        href: route("youtube.playlist"),
     },
 ];
 </script>
