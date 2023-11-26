@@ -68,4 +68,3 @@ Route::name('spotify')->group(function () {
 Route::name('youtube')->group(function () {
     Route::name('.playlist')->get('/youtube/playlist', [YoutubeController::class, 'index']);
 });
-
