@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e8fad1e2c18ed746abb03924c467e710",
+    "content-hash": "52a1d5f30201f9f369d13ab64d327da5",
     "packages": [
         {
             "name": "brick/math",
@@ -60,90 +60,6 @@
                 }
             ],
             "time": "2023-01-15T23:15:59+00:00"
-        },
-        {
-            "name": "davadams97/ytmusicapi",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/davadams97/ytmusicapi.git",
-                "reference": "f00c62a6a67a1454f82d61826c74b7c632605ead"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/davadams97/ytmusicapi/zipball/f00c62a6a67a1454f82d61826c74b7c632605ead",
-                "reference": "f00c62a6a67a1454f82d61826c74b7c632605ead",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.4|^8.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^6.0",
-                "phpunit/phpunit": "^8.5.8|^9.3.3"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MGKProd\\YTMusic\\YTMusicServiceProvider"
-                    ],
-                    "aliases": {
-                        "YTMusic": "MGKProd\\YTMusic\\Facades\\YTMusic"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "MGKProd\\YTMusic\\": "src"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MGKProd\\YTMusic\\Tests\\": "tests"
-                }
-            },
-            "scripts": {
-                "format": [
-                    "vendor/bin/php-cs-fixer fix --allow-risky=yes"
-                ],
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Simon Rubuano",
-                    "email": "sr@mgk.dev",
-                    "homepage": "https://mgk.dev",
-                    "role": "Developer"
-                },
-                {
-                    "name": "David Alexander Adams",
-                    "email": "david.adams97@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Unofficial API for YouTube Music",
-            "homepage": "https://github.com/davadams97/ytmusicapi",
-            "keywords": [
-                "laravel",
-                "mgkprod",
-                "php",
-                "youtube",
-                "youtube-api",
-                "youtube-music",
-                "youtube-music-api",
-                "ytmusicapi"
-            ],
-            "support": {
-                "source": "https://github.com/davadams97/ytmusicapi/tree/main"
-            },
-            "time": "2023-11-21T02:47:30+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -1534,16 +1450,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.32.1",
+            "version": "v10.33.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b30e44f20d244f7ba125283e14a8bbac167f4e5b"
+                "reference": "4536872e3e5b6be51b1f655dafd12c9a4fa0cfe8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b30e44f20d244f7ba125283e14a8bbac167f4e5b",
-                "reference": "b30e44f20d244f7ba125283e14a8bbac167f4e5b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4536872e3e5b6be51b1f655dafd12c9a4fa0cfe8",
+                "reference": "4536872e3e5b6be51b1f655dafd12c9a4fa0cfe8",
                 "shasum": ""
             },
             "require": {
@@ -1732,7 +1648,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-11-14T22:57:08+00:00"
+            "time": "2023-11-21T14:49:31+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -6565,16 +6481,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.26.0",
+            "version": "v1.26.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "c60fe037004e272efd0d81f416ed2bfc623d70b4"
+                "reference": "7a82f5aa364dbee3fd9c52fc464cf0bdd11150ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/c60fe037004e272efd0d81f416ed2bfc623d70b4",
-                "reference": "c60fe037004e272efd0d81f416ed2bfc623d70b4",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/7a82f5aa364dbee3fd9c52fc464cf0bdd11150ed",
+                "reference": "7a82f5aa364dbee3fd9c52fc464cf0bdd11150ed",
                 "shasum": ""
             },
             "require": {
@@ -6626,7 +6542,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2023-10-18T13:57:15+00:00"
+            "time": "2023-11-20T15:56:47+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -6981,16 +6897,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "10.1.8",
+            "version": "10.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "84838eed9ded511f61dc3e8b5944a52d9017b297"
+                "reference": "a56a9ab2f680246adcf3db43f38ddf1765774735"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/84838eed9ded511f61dc3e8b5944a52d9017b297",
-                "reference": "84838eed9ded511f61dc3e8b5944a52d9017b297",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/a56a9ab2f680246adcf3db43f38ddf1765774735",
+                "reference": "a56a9ab2f680246adcf3db43f38ddf1765774735",
                 "shasum": ""
             },
             "require": {
@@ -7047,7 +6963,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.1.8"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.1.9"
             },
             "funding": [
                 {
@@ -7055,7 +6971,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-11-15T13:31:15+00:00"
+            "time": "2023-11-23T12:23:20+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -8748,9 +8664,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "davadams97/ytmusicapi": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
