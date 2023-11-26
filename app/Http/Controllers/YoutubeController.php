@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use MGKProd\YTMusic\Facades\YTMusic;
+use Illuminate\Support\Facades\Http;
 use Inertia\Response;
 
 class YoutubeController extends Controller
@@ -10,16 +10,12 @@ class YoutubeController extends Controller
 
     public function index(): Response
     {
-        $user = YTMusic::browse()->user(env("YOUTUBE_USER_ID"));
-
-        $playlists = YTMusic::browse()->userPlaylists(
-            env("YOUTUBE_USER_ID"),
-            $user['playlists']['params']
-        );
-
+        $playlists = Http::get(env('YOUTUBE_API') . 'library/playlists')->json();
+        $userName = Http::get(env('YOUTUBE_API') . 'browse/user/' . env('YOUTUBE_CHANNEL_ID'))->json();
         return inertia('Youtube/Index', [
-            'userName' => 'David',
-            'playlists' => $user
+            'userName' => $userName['name'],
+            'playlists' => $playlists
         ]);
+    
     }
 }
