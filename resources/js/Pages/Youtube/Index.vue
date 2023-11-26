@@ -6,10 +6,10 @@
             </h2>
             <div>
                 <span class="text-slate-50 w-50 h-12 m-2 p-4"
-                    >Showing Spotify playlist for {{ userName }}</span
+                    >Showing Youtube playlist for {{ userName }}</span
                 >
                 <ul v-for="playlist of playlists">
-                    <li>{{ playlist }}</li>
+                    <li>{{ playlist.title }}</li>
                 </ul>
             </div>
         </section>
