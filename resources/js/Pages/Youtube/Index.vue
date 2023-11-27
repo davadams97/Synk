@@ -17,5 +17,5 @@
 </template>
 
 <script setup>
-const { userName } = defineProps(["userName", "playlists"]);
+defineProps(["userName", "playlists"]);
 </script>

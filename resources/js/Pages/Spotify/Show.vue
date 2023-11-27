@@ -14,5 +14,5 @@
     </table>
 </template>
 <script setup>
-const { playlist } = defineProps(["playlist"]);
+defineProps(["playlist"]);
 </script>
