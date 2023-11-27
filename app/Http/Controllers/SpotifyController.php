@@ -22,4 +22,12 @@ class SpotifyController extends Controller
             'playlists' => $playlists
         ]);
     }
+
+    public function show($playlistId): Response
+    {
+        $playlist = $this->spotifyService->getPlaylist($playlistId);
+        return inertia('Spotify/Show', [
+            'playlist' => $playlist
+        ]);
+    }
 }
