@@ -16,6 +16,7 @@ Route::get('/', [HomePageController::class, 'index']);
 /** Spotify API Routes */
 Route::name('spotify')->group(function () {
     Route::name('.playlist')->get('/spotify/playlist', [SpotifyController::class, 'index']);
+    Route::name('.playlist.list')->get('/spotify/playlist/{playlistId}', [SpotifyController::class, 'show']);
     Route::name('.authorize')->get('/spotify/auth/redirect', function (Request $request) {
         $request->session()->put('state', $state = Str::random(40));
 
