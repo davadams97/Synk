@@ -25,7 +25,7 @@ class SpotifyController extends Controller
 
     public function show($playlistId): Response
     {
-        $playlist = $this->spotifyService->getPlaylist($playlistId);
+        $playlist = array_map(fn ($entry) => array('name' => $entry['track']['name'], 'album' => $entry['track']['album']['name']), $this->spotifyService->getPlaylist($playlistId));
         return inertia('Spotify/Show', [
             'playlist' => $playlist
         ]);
