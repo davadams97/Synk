@@ -11,7 +11,10 @@
                 </tr>
                 <tr v-for="playlist of playlists">
                     <td>
-                        <Link href="/">{{ playlist.title }}</Link>
+                        <Link
+                            :href="route('youtube.playlist.list', playlist.playlistId)"
+                            >{{ playlist.title }}
+                        </Link>
                     </td>
                 </tr>
             </table>
