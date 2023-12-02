@@ -24,5 +24,5 @@
 
 <script setup>
 import { Link } from "@inertiajs/vue3";
-const { userName } = defineProps(["userName", "playlists"]);
+defineProps(["userName", "playlists"]);
 </script>

@@ -5,11 +5,11 @@
             <th>Song title</th>
             <th>Album</th>
         </tr>
-        <tr v-for="track of playlist">
+        <tr v-for="track of playlist.tracks">
             <td>
-                {{ track.name }}
+                {{ track.title }}
             </td>
-            <td>{{ track.album }}</td>
+            <td>{{ track.album?.name ?? 'Not available' }}</td>
         </tr>
     </table>
 </template>
