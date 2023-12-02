@@ -15,4 +15,9 @@ class YoutubeMusicService
     {
         return Http::get(env('YOUTUBE_API') . 'playlists')->json();
     }
+
+    public function getPlaylist($playlistId)
+    {
+        return Http::get(env('YOUTUBE_API') . 'playlists/' . $playlistId)->json();
+    }
 }

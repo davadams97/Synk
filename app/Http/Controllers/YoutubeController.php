@@ -20,6 +20,13 @@ class YoutubeController extends Controller
             'userName' => $userName['name'],
             'playlists' => $playlists
         ]);
-    
+    }
+
+    public function show($playlistId): Response
+    {
+        $playlist = $this->youtubeMusicService->getPlaylist($playlistId);
+        return inertia('Youtube/Show', [
+            'playlist' => $playlist
+        ]);
     }
 }
