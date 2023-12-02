@@ -12,7 +12,12 @@
                 <tr v-for="playlist of playlists">
                     <td>
                         <Link
-                            :href="route('youtube.playlist.list', playlist.playlistId)"
+                            :href="
+                                route(
+                                    'youtube.playlist.list',
+                                    playlist.playlistId
+                                )
+                            "
                             >{{ playlist.title }}
                         </Link>
                     </td>

@@ -12,9 +12,10 @@
                 </tr>
                 <tr v-for="playlist of playlists">
                     <td>
-                        <Link :href="route('spotify.playlist.list', playlist.id)">{{
-                            playlist.name
-                        }}</Link>
+                        <Link
+                            :href="route('spotify.playlist.list', playlist.id)"
+                            >{{ playlist.name }}</Link
+                        >
                     </td>
                 </tr>
             </table>
