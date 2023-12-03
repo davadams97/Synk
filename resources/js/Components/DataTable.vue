@@ -2,20 +2,29 @@
     <div class="bg-white rounded-md shadow overflow-x-auto">
         <table class="w-full whitespace-nowrap">
             <tr class="text-left font-bold">
-                <th class="pb-4 pt-6 px-6">{{ header }}</th>
+                <th v-for="header in headers" class="pb-4 pt-6 px-6">
+                    {{ header }}
+                </th>
             </tr>
             <tr
                 v-for="entry of dataList"
                 :key="entry.id"
                 class="hover:bg-gray-100 focus-within:bg-gray-100"
             >
-                <td class="border-t">
+                <td v-for="col of entry.columns" :key="col" class="border-t">
                     <Link
+                        v-if="routeData"
                         class="flex items-center px-6 py-4 focus:text-indigo-500"
                         :href="route(routeData.name, routeData.params)"
                     >
-                        {{ entry.name || unnamedEntry }}
+                        {{ col || unnamedEntry }}
                     </Link>
+                    <span
+                        v-else
+                        class="flex items-center px-6 py-4 focus:text-indigo-500"
+                    >
+                        {{ col || unnamedEntry }}
+                    </span>
                 </td>
             </tr>
             <tr v-if="dataList.length === 0">
@@ -26,17 +35,22 @@
         </table>
     </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 
-const props = defineProps({
-    dataList: Array,
-    routeData: {
-        name: String,
-        params: String,
-    },
-    header: String,
-    noDataText: String,
-    unnamedEntry: String
-});
+interface Entry {
+    id: string | number;
+    columns: string[];
+}
+
+defineProps<{
+    dataList: Entry[];
+    routeData?: {
+        name: string;
+        params: string;
+    };
+    headers: string[];
+    noDataText: string;
+    unnamedEntry: string;
+}>();
 </script>
