@@ -1,5 +1,5 @@
 <template>
-    <div class="flex bg-sky-950 h-screen items-center justify-center">
+    <div class="flex items-center justify-center">
         <a
             v-for="button in buttonConfig"
             class="flex text-slate-50 w-50 h-12 m-2 p-4 items-center rounded-md bg-slate-600"
