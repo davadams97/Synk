@@ -2,24 +2,23 @@
     <div>
         <section>
             <h2 class="text-slate-50 w-50 h-12 m-2 p-4">
-                Showing playlist data
+                Showing tracks for {{ playlistName }}
             </h2>
 
-            <table class="text-slate-50">
-                <tr>
-                    <th>Song title</th>
-                    <th>Album</th>
-                </tr>
-                <tr v-for="track of playlist">
-                    <td>
-                        {{ track.name }}
-                    </td>
-                    <td>{{ track.album ?? "Not available" }}</td>
-                </tr>
-            </table>
+            <data-table
+                no-data-text="No songs found."
+                :headers="['Song title', 'Album']"
+                :data-list="playlist"
+            >
+            </data-table>
         </section>
     </div>
 </template>
-<script setup>
-defineProps(["playlist"]);
+<script setup lang="ts">
+import DataTable from "@/Components/DataTable.vue";
+
+defineProps<{
+    playlist: [];
+    playlistName: string;
+}>();
 </script>

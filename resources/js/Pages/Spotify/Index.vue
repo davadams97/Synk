@@ -2,7 +2,7 @@
     <div>
         <section>
             <h2 class="text-slate-50 w-50 h-12 m-2 p-4">
-                {{ userName }}'s current playlist for Spotify
+                Showing {{ userName }}'s Spotify playlists
             </h2>
 
             <data-table
@@ -11,7 +11,7 @@
                 :headers="['Name of Playlist']"
                 :route-data="{
                     name: 'spotify.playlist.list',
-                    params: 'playlist.id',
+                    params: 'id',
                 }"
                 :data-list="playlists"
             >
@@ -20,10 +20,11 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import DataTable from "@/Components/DataTable.vue";
-const props = defineProps({
-    userName: String,
-    playlists: Array,
-});
+
+defineProps<{
+    userName: string,
+    playlists: [],
+}>();
 </script>
