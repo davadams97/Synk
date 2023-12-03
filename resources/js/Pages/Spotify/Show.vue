@@ -6,7 +6,7 @@
             </h2>
 
             <data-table
-                no-data-text="No songs found."
+                no-data-text="No tracks found."
                 :headers="['Song title', 'Album']"
                 :data-list="playlist"
             >
