@@ -6,9 +6,9 @@
             </h2>
 
             <data-table
-                header="Name of Playlist"
                 no-data-text="No playlists found."
                 unnamed-entry="Unnamed playlist"
+                :headers="['Name of Playlist']"
                 :route-data="{
                     name: 'spotify.playlist.list',
                     params: 'playlist.id',
