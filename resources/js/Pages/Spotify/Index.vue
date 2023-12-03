@@ -1,5 +1,5 @@
 <template>
-    <div class="flex bg-sky-950 h-screen justify-center">
+    <div>
         <section>
             <h2 class="text-slate-50 w-50 h-12 m-2 p-4">
                 Showing {{ userName }} current playlist for Spotify
@@ -12,9 +12,10 @@
                 </tr>
                 <tr v-for="playlist of playlists">
                     <td>
-                        <Link :href="route('spotify.playlist.list', playlist.id)">{{
-                            playlist.name
-                        }}</Link>
+                        <Link
+                            :href="route('spotify.playlist.list', playlist.id)"
+                            >{{ playlist.name }}</Link
+                        >
                     </td>
                 </tr>
             </table>
