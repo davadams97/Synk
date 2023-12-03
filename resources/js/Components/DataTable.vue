@@ -15,15 +15,15 @@
                     <Link
                         v-if="routeData"
                         class="flex items-center px-6 py-4 focus:text-indigo-500"
-                        :href="route(routeData.name, routeData.params)"
+                        :href="route(routeData.name, entry[routeData.params])"
                     >
-                        {{ col || unnamedEntry }}
+                        {{ col || "Not Available" }}
                     </Link>
                     <span
                         v-else
                         class="flex items-center px-6 py-4 focus:text-indigo-500"
                     >
-                        {{ col || unnamedEntry }}
+                        {{ col || "Not Available" }}
                     </span>
                 </td>
             </tr>
@@ -51,6 +51,5 @@ defineProps<{
     };
     headers: string[];
     noDataText: string;
-    unnamedEntry: string;
 }>();
 </script>
