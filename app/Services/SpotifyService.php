@@ -18,6 +18,11 @@ class SpotifyService
 
     public function getPlaylist($playlistId)
     {
+        return Http::spotify()->get('/playlists/' . $playlistId)->json();
+    }
+
+    public function getPlaylistTracks($playlistId)
+    {
         $queryParams = ['fields' => 'items(track(name,id,album(name)))'];
         return Http::spotify()->get('/playlists/' . $playlistId . '/tracks', $queryParams)['items'];
     }
