@@ -15,7 +15,7 @@ class SpotifyController extends Controller
     public function index(): Response
     {
         $userName = $this->spotifyService->getProfile()["display_name"];
-        $playlists = array_map(fn ($playlist) => array('name' => $playlist['name'], 'id' => $playlist['id']), $this->spotifyService->getPlaylists());
+        $playlists = array_map(fn ($playlist) => array('columns' => array($playlist['name']), 'id' => $playlist['id']), $this->spotifyService->getPlaylists());
 
         return inertia('Spotify/Index', [
             'userName' => $userName,
