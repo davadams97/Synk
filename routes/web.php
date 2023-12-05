@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SpotifyController;
+use App\Http\Controllers\TransferController;
 use App\Http\Controllers\YoutubeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -13,7 +14,6 @@ require __DIR__.'/auth.php';
 /** Inertia Routes */
 Route::get('/', [HomePageController::class, 'index']);
 
-/** Spotify API Routes */
 Route::name('spotify')->group(function () {
     Route::name('.playlist')->get('/spotify/playlist', [SpotifyController::class, 'index']);
     Route::name('.playlist.list')->get('/spotify/playlist/{playlistId}', [SpotifyController::class, 'show']);
@@ -69,4 +69,8 @@ Route::name('spotify')->group(function () {
 Route::name('youtube')->group(function () {
     Route::name('.playlist')->get('/youtube/playlist', [YoutubeController::class, 'index']);
     Route::name('.playlist.list')->get('/youtube/playlist/{playlistId}', [YoutubeController::class, 'show']);
+});
+
+Route::name('transfer')->group(function () {
+    Route::name('.playlist')->post('/transfer/playlist', [TransferController::class, 'store']);
 });
