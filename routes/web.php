@@ -3,12 +3,12 @@
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\YoutubeController;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 /** Inertia Routes */
 Route::get('/', [HomePageController::class, 'index']);
@@ -40,7 +40,7 @@ Route::name('spotify')->group(function () {
             'code_challenge_method' => 'S256',
         ]);
 
-        return redirect('https://accounts.spotify.com/authorize?' . $query);
+        return redirect('https://accounts.spotify.com/authorize?'.$query);
     });
     Route::name('.accessToken')->get('/spotify/auth/access-token', function (Request $request) {
         $state = $request->session()->pull('state');

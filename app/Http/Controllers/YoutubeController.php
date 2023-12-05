@@ -14,18 +14,17 @@ class YoutubeController extends Controller
     public function index(): Response
     {
         $playlists = array_map(
-            fn ($playlist) => array(
-                'columns' =>
-                array($playlist['title']),
-                'id' => $playlist['playlistId']
-            ),
+            fn ($playlist) => [
+                'columns' => [$playlist['title']],
+                'id' => $playlist['playlistId'],
+            ],
             $this->youtubeMusicService->getPlaylists()
         );
         $userName = $this->youtubeMusicService->getProfile();
 
         return inertia('Youtube/Index', [
             'userName' => $userName['name'],
-            'playlists' => $playlists
+            'playlists' => $playlists,
         ]);
     }
 
@@ -35,17 +34,16 @@ class YoutubeController extends Controller
         $playlistName = $playlistData['title'];
 
         $playlist = array_map(
-            fn ($entry) =>
-            array(
-                'columns' => array($entry['title'], $entry['album']['name'] ?? ''),
-                'id' => $entry['videoId']
-            ),
+            fn ($entry) => [
+                'columns' => [$entry['title'], $entry['album']['name'] ?? ''],
+                'id' => $entry['videoId'],
+            ],
             $playlistData['tracks']
         );
 
         return inertia('Youtube/Show', [
             'playlist' => $playlist,
-            'playlistName' => $playlistName
+            'playlistName' => $playlistName,
         ]);
     }
 }
