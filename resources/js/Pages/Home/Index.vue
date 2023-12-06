@@ -13,7 +13,10 @@
             :href="tranferButtonConfig.href"
             method="post"
             as="button"
-            :data="{ title: 'Test Playlist' }"
+            :data="{
+                title: 'Test Playlist',
+                name: 'Hopefully sky',
+            }"
         >
             {{ tranferButtonConfig.label }}
         </Link>
