@@ -7,25 +7,10 @@
         >
             {{ button.label }}
         </a>
-
-        <Link
-            class="flex text-slate-50 w-50 h-12 m-2 p-4 items-center rounded-md bg-slate-600"
-            :href="tranferButtonConfig.href"
-            method="post"
-            as="button"
-            :data="{
-                title: 'Test Playlist',
-                name: 'Hopefully sky',
-            }"
-        >
-            {{ tranferButtonConfig.label }}
-        </Link>
     </div>
 </template>
 
 <script setup>
-import { Link } from "@inertiajs/vue3";
-
 const buttonConfig = [
     {
         providerName: "Spotify",
@@ -38,10 +23,4 @@ const buttonConfig = [
         href: route("youtube.playlist"),
     },
 ];
-
-const tranferButtonConfig = {
-    providerName: "Youtube Music",
-    label: "Transfer Playlist",
-    href: route("transfer.playlist"),
-};
 </script>
