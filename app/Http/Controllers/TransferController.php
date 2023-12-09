@@ -63,11 +63,6 @@ class TransferController extends Controller
 
         $matchedResult = $fuse->search($songName, ['limit' => 1]);
 
-        // $matchedResult = array_filter(
-        //     $searchResults,
-        //     fn ($result) => strtolower($result['title']) === strtolower($songName)
-        // )[0];
-
         return $matchedResult;
         // Handle error
     }
