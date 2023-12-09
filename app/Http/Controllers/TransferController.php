@@ -22,7 +22,7 @@ class TransferController extends Controller
 
         $songsToAddIds = array_map(fn ($song) => $song['videoId'], $songsToAdd);
 
-        info($songsToAddIds);
+        // info($songsToAddIds);
 
         // foreach ($songsToAdd as $song) {
         // info($song);
