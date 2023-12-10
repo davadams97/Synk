@@ -14,20 +14,17 @@ class TransferController extends Controller
 
         foreach ($request['name'] as $song) {
             $result = $this->findSongFromYTMusic($song);
-            // don't do anything if result is empty
-            $songsToAdd[] = $result[0]['item'];
+
+            if (!empty($result)) {
+                $songsToAdd[] = $result[0]['item'];
+            }
         }
 
         $playlistId = $this->createPlaylist($request['title']);
 
         $songsToAddIds = array_map(fn ($song) => $song['videoId'], $songsToAdd);
 
-        // info($songsToAddIds);
-
-        // foreach ($songsToAdd as $song) {
-        // info($song);
         $this->addSongToPlaylist($songsToAddIds, $playlistId);
-        // }
 
         // delete playlist if fail
 
@@ -49,8 +46,6 @@ class TransferController extends Controller
     {
         $filter = [
             'keys' =>
-            // ['name' => 'title', 'getFn' => fn ($res) => $res['title']],
-            // ['name' => 'album', 'getFn' => fn ($res) => $res['album']['name']],
             ['title', 'artists.name', 'album.name'],
             'shouldSort' => true,
         ];
