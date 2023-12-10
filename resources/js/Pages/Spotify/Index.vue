@@ -24,7 +24,9 @@
 import DataTable from "@/Components/DataTable.vue";
 
 defineProps<{
-    userName: string,
-    playlists: [],
+    userName: string;
+    playlists: [];
 }>();
+
+
 </script>
