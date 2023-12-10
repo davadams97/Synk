@@ -13,6 +13,8 @@
                 :data="{
                     title: 'Test Playlist',
                     name: playlist.map(val => val['columns'][0]),
+                    currentProvider: 'spotify',
+                    targetProvider: 'ytmusic'
                 }"
             >
                 {{ transferButtonConfig.label }}
@@ -37,7 +39,6 @@ defineProps<{
 }>();
 
 const transferButtonConfig = {
-    providerName: "Youtube Music",
     label: "Transfer Playlist",
     href: route("transfer.playlist"),
 };
