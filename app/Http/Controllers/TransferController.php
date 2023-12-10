@@ -20,29 +20,43 @@ class TransferController extends Controller
             }
         }
 
-        $playlistId = $this->createPlaylist($request['title']);
+        $response = $this->createPlaylist($request['title']);
 
-        $songsToAddIds = array_map(fn ($song) => $song['videoId'], $songsToAdd);
+        if ($response->successful()) {
+            $songsToAddIds = array_map(fn ($song) => $song['videoId'], $songsToAdd);
+            $this->addSongToPlaylist($songsToAddIds, $response);
+        }
 
-        $this->addSongToPlaylist($songsToAddIds, $playlistId);
-
-        // delete playlist if fail
+        if ($response->failed()) {
+            $this->deletePlaylist($response);
+        }
 
         // TODO: check for explicit
         // TODO: check for casing
         // TODO: check for song name and artist
     }
 
-    private function createPlaylist($title)
+    private function createPlaylist(String $title)
     {
-        return Http::withHeaders(['Content-Type' => 'application/json'])->post(env('YOUTUBE_API').'playlists', [
+        $response = Http::withHeaders(['Content-Type' => 'application/json'])->post(env('YOUTUBE_API').'playlists', [
             'title' => $title,
         ]);
 
-        // Handle error
+        $response->throw();
+
+        return $response;
     }
 
-    private function findSongFromYTMusic($songName)
+    private function deletePlaylist(String $playlistId)
+    {
+        $response = Http::delete(env('YOUTUBE_API').'playlists/'.$playlistId);
+
+        $response->throw();
+
+        return $response;
+    }
+
+    private function findSongFromYTMusic(String $songName)
     {
         $filter = [
             'keys' =>
@@ -50,22 +64,24 @@ class TransferController extends Controller
             'shouldSort' => true,
         ];
 
-        $searchResults = Http::get(env('YOUTUBE_API').'search', [
+        $response = Http::get(env('YOUTUBE_API').'search', [
             'query' => $songName,
-        ])->json();
+        ]);
 
-        $fuse = new Fuse($searchResults, $filter);
+        $response->throw();
 
+        $fuse = new Fuse($response->json(), $filter);
         $matchedResult = $fuse->search($songName, ['limit' => 1]);
 
         return $matchedResult;
-        // Handle error
     }
 
-    private function addSongToPlaylist($videoIds, $playlistId)
+    private function addSongToPlaylist(array $videoIds, String $playlistId)
     {
-        Http::withHeaders(['Content-Type' => 'application/json'])->post(env('YOUTUBE_API').'playlists/'.$playlistId.'/add-songs', [
+        $response = Http::withHeaders(['Content-Type' => 'application/json'])->post(env('YOUTUBE_API').'playlists/'.$playlistId.'/add-songs', [
             'videoIds' => $videoIds,
         ]);
+
+        $response->throw();
     }
 }
