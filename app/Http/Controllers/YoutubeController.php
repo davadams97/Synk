@@ -47,6 +47,7 @@ class YoutubeController extends Controller
         return inertia('Youtube/Show', [
             'trackList' => $trackList,
             'playlistName' => $playlistName,
+            'playlistId' => $playlistId,
         ]);
     }
 

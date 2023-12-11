@@ -33,13 +33,14 @@
 import DataTable from "@/Components/DataTable.vue";
 import { Link } from "@inertiajs/vue3";
 
-defineProps<{
+const props = defineProps<{
     trackList: [];
     playlistName: string;
+    playlistId: string
 }>();
 
 const transferButtonConfig = {
     label: "Transfer Playlist",
-    href: route("transfer.playlist"),
+    href: route("youtube.playlist.transfer", props.playlistId),
 };
 </script>
