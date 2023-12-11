@@ -34,7 +34,7 @@ Route::name('spotify')->group(function () {
             'client_id' => env('SPOTIFY_CLIENT_ID'),
             'redirect_uri' => 'http://localhost:8000/spotify/auth/access-token',
             'response_type' => 'code',
-            'scope' => 'user-read-private user-read-email playlist-read-private',
+            'scope' => 'user-read-private user-read-email playlist-read-private playlist-modify-public playlist-modify-private',
             'state' => $state,
             'code_challenge' => $codeChallenge,
             'code_challenge_method' => 'S256',
