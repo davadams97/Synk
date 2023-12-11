@@ -94,7 +94,32 @@ class TransferController extends Controller
         return $matchedResult;
     }
 
-    private function addSongToPlaylist(array $videoIds, string $playlistId)
+    private function findSongFromSpotify(string $songName)
+    {
+        // TODO: look into getter function not working
+        $filter = [
+            'keys' => [
+                // ['name' => 'title', 'getFn' => fn ($query) => $query['title']],
+                // ['name' => 'artistName', 'getFn' => fn ($query) => $query['artists']['name']],
+                // ['name' => 'albumName', 'getFn' => fn ($query) => $query['album']['name']],
+                'name',
+                'artists.name',
+                'album.name',
+            ],
+            'shouldSort' => true,
+        ];
+
+        $response = $this->spotifyService->searchTracks($songName);
+
+        // info($response);
+
+        $fuse = new Fuse($response, $filter);
+        // $matchedResult = $fuse->search(['title' => $songName], ['limit' => 1]);
+        $matchedResult = $fuse->search($songName, ['limit' => 1]);
+
+        return $matchedResult;
+    }
+
     private function addSongToPlaylist(string $provider, array $trackIds, string $playlistId)
     {
         switch ($provider) {
@@ -112,11 +137,5 @@ class TransferController extends Controller
 
                 break;
         }
-    {
-        $response = Http::withHeaders(['Content-Type' => 'application/json'])->post(env('YOUTUBE_API').'playlists/'.$playlistId.'/add-songs', [
-            'videoIds' => $videoIds,
-        ]);
-
-        $response->throw();
     }
 }
