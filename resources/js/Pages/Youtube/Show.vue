@@ -12,7 +12,7 @@
                 as="button"
                 :data="{
                     title: 'Test Playlist',
-                    name: playlist.map((val) => val['columns'][0]),
+                    name: trackList.map((val) => val['columns'][0]),
                     currentProvider: 'ytmusic',
                     targetProvider: 'spotify',
                 }"
@@ -23,7 +23,7 @@
             <data-table
                 no-data-text="No tracks found."
                 :headers="['Song title', 'Album']"
-                :data-list="playlist"
+                :data-list="trackList"
             >
             </data-table>
         </section>
@@ -34,7 +34,7 @@ import DataTable from "@/Components/DataTable.vue";
 import { Link } from "@inertiajs/vue3";
 
 defineProps<{
-    playlist: [];
+    trackList: [];
     playlistName: string;
 }>();
 

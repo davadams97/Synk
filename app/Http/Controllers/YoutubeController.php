@@ -36,7 +36,7 @@ class YoutubeController extends Controller
         $playlistData = $this->youtubeMusicService->getPlaylist($playlistId);
         $playlistName = $playlistData['title'];
 
-        $playlist = array_map(
+        $trackList = array_map(
             fn ($entry) => [
                 'columns' => [$entry['title'], $entry['album']['name'] ?? ''],
                 'id' => $entry['videoId'],
@@ -45,7 +45,7 @@ class YoutubeController extends Controller
         );
 
         return inertia('Youtube/Show', [
-            'playlist' => $playlist,
+            'trackList' => $trackList,
             'playlistName' => $playlistName,
         ]);
     }
