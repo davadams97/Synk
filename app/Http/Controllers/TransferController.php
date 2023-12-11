@@ -35,21 +35,32 @@ class TransferController extends Controller
         // TODO: check for song name and artist
     }
 
-    private function createPlaylist(string $title)
+    private function createPlaylist(string $provider, string $title)
     {
-        $response = Http::withHeaders(['Content-Type' => 'application/json'])->post(env('YOUTUBE_API').'playlists', [
-            'title' => $title,
-        ]);
+        switch ($provider) {
+            case 'ytmusic':
+                $response = Http::withHeaders(['Content-Type' => 'application/json'])->post(env('YOUTUBE_API').'playlists', [
+                    'title' => $title,
+                ]);
 
-        $response->throw();
+                $response->throw();
 
-        return $response;
+                return $response;
+
+            case 'spotify':
+                $userId = $this->spotifyService->getProfile()['id'];
+
+                $response = $this->spotifyService->createPlaylist($userId, $title);
+
+                $response->throw();
+
+                return;
+        }
     }
 
     private function deletePlaylist(string $playlistId)
     {
         $response = Http::delete(env('YOUTUBE_API').'playlists/'.$playlistId);
-
         $response->throw();
 
         return $response;
