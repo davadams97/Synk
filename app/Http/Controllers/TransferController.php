@@ -2,33 +2,82 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\SpotifyService;
 use Fuse\Fuse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class TransferController extends Controller
 {
+    public function __construct(protected SpotifyService $spotifyService)
+    {
+    }
+
     public function store(Request $request)
     {
         $songsToAdd = [];
 
-        foreach ($request['name'] as $song) {
-            $result = $this->findSongFromYTMusic($song);
+        if ($request['currentProvider'] == 'spotify') {
+            if ($request['targetProvider'] == 'ytmusic') {
+                foreach ($request['name'] as $song) {
+                    $result = $this->findSongFromYTMusic($song);
 
-            if (! empty($result)) {
-                $songsToAdd[] = $result[0]['item'];
+                    if (! empty($result)) {
+                        $songsToAdd[] = $result[0]['item'];
+                    }
+                }
+
+                $response = $this->createPlaylist('ytmusic', $request['title']);
+
+                if ($response->successful()) {
+                    $songsToAddIds = array_map(fn ($song) => $song['videoId'], $songsToAdd);
+                    $this->addSongToPlaylist('ytmusic', $songsToAddIds, $response);
+                }
+
+                if ($response->failed()) {
+                    $this->deletePlaylist($response);
+                }
             }
         }
 
-        $response = $this->createPlaylist($request['title']);
+        if ($request['currentProvider'] == 'ytmusic') {
+            if ($request['targetProvider'] == 'spotify') {
+                foreach ($request['name'] as $song) {
+                    $result = $this->findSongFromSpotify($song);
+                    if (! empty($result)) {
+                        $songsToAdd[] = $result[0]['item'];
+                    }
+                }
 
-        if ($response->successful()) {
-            $songsToAddIds = array_map(fn ($song) => $song['videoId'], $songsToAdd);
-            $this->addSongToPlaylist($songsToAddIds, $response);
-        }
+                // info(array_map(fn ($song) => $song['uri'], $songsToAdd));
 
-        if ($response->failed()) {
-            $this->deletePlaylist($response);
+                // info($songsToAdd);
+                $userProfile = $this->spotifyService->getProfile();
+                $playlists = $this->spotifyService->getPlaylists();
+
+                $filter = [
+                    'keys' => [
+                        'name',
+                    ],
+                    'shouldSort' => true,
+                ];
+                $fuse = new Fuse($playlists, $filter);
+
+                // $matchedResult = $fuse->search(['title' => $songName], ['limit' => 1]);
+                $matchedResult = $fuse->search($request['title'], ['limit' => 1]);
+
+                $response = $this->spotifyService->createPlaylist($request['title'], $userProfile['id']);
+
+                if ($response->successful()) {
+                    $songsToAddIds = array_map(fn ($song) => $song['uri'], $songsToAdd);
+                    info($matchedResult);
+                    $this->addSongToPlaylist('spotify', $songsToAddIds, $matchedResult[0]['item']['id']);
+                }
+
+                // if ($response->failed()) {
+                //     $this->deletePlaylist($response);
+                // }
+            }
         }
 
         // TODO: check for explicit
