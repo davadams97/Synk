@@ -17,6 +17,7 @@ Route::get('/', [HomePageController::class, 'index']);
 Route::name('spotify')->group(function () {
     Route::name('.playlist')->get('/spotify/playlist', [SpotifyController::class, 'index']);
     Route::name('.playlist.list')->get('/spotify/playlist/{playlistId}', [SpotifyController::class, 'show']);
+    Route::name('.playlist.transfer')->post('/spotify/playlist/{playlistId}/transfer', [SpotifyController::class, 'store']);
     Route::name('.authorize')->get('/spotify/auth/redirect', function (Request $request) {
         $request->session()->put('state', $state = Str::random(40));
 
@@ -69,8 +70,4 @@ Route::name('spotify')->group(function () {
 Route::name('youtube')->group(function () {
     Route::name('.playlist')->get('/youtube/playlist', [YoutubeController::class, 'index']);
     Route::name('.playlist.list')->get('/youtube/playlist/{playlistId}', [YoutubeController::class, 'show']);
-});
-
-Route::name('transfer')->group(function () {
-    Route::name('.playlist')->post('/transfer/playlist', [TransferController::class, 'store']);
 });
