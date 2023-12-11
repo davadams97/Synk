@@ -27,4 +27,33 @@ class SpotifyService
 
         return Http::spotify()->get('/playlists/'.$playlistId.'/tracks', $queryParams)['items'];
     }
+
+    public function createPlaylist($name, $userId)
+    {
+        return Http::spotify()->post(
+            '/users/'.$userId.'/playlists',
+            [
+                'name' => $name,
+            ]
+        );
+    }
+
+    public function addToPlaylist($playlistId, $trackIds)
+    {
+        return Http::spotify()->post(
+            '/playlists/'.$playlistId.'/tracks',
+            ['uris' => $trackIds]
+        );
+    }
+
+    public function searchTracks($query)
+    {
+        return Http::spotify()->get(
+            '/search',
+            [
+                'q' => $query,
+                'type' => 'track',
+            ]
+        )['tracks']['items'];
+    }
 }
