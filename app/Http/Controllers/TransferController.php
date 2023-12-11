@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Services\SpotifyService;
 use Fuse\Fuse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class TransferController extends Controller
 {
@@ -60,6 +59,7 @@ class TransferController extends Controller
                 return;
         }
     }
+
     private function findSongFromSpotify(string $songName)
     {
         // TODO: look into getter function not working

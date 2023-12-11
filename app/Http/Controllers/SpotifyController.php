@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Factories\TransferStrategyFactory;
 use App\Services\SpotifyService;
 use App\Services\YoutubeMusicService;
-use App\Services\Factories\TransferStrategyFactory;
 use Illuminate\Http\Request;
 use Inertia\Response;
 
@@ -46,7 +46,7 @@ class SpotifyController extends Controller
         return inertia('Spotify/Show', [
             'trackList' => $trackList,
             'playlistName' => $playlistName,
-            'playlistId' => $playlistId
+            'playlistId' => $playlistId,
         ]);
     }
 

@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SpotifyController;
-use App\Http\Controllers\TransferController;
 use App\Http\Controllers\YoutubeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -70,4 +69,5 @@ Route::name('spotify')->group(function () {
 Route::name('youtube')->group(function () {
     Route::name('.playlist')->get('/youtube/playlist', [YoutubeController::class, 'index']);
     Route::name('.playlist.list')->get('/youtube/playlist/{playlistId}', [YoutubeController::class, 'show']);
+    Route::name('.playlist.transfer')->post('/youtube/playlist/{playlistId}/transfer', [SpotifyController::class, 'store']);
 });

@@ -4,7 +4,7 @@ namespace App\Services\Strategies;
 
 use App\Interfaces\TransferStrategyInterface;
 use App\Services\YoutubeMusicService;
-use \Fuse\Fuse;
+use Fuse\Fuse;
 
 class TransferToYTMusic implements TransferStrategyInterface
 {
@@ -23,7 +23,7 @@ class TransferToYTMusic implements TransferStrategyInterface
             $ytmusicResults = $this->service->searchTracks($track);
             $matchedTrack = $this->filterTracks($ytmusicResults->json(), $track);
 
-            if (!empty($matchedTrack)) {
+            if (! empty($matchedTrack)) {
                 $tracksToAdd[] = $matchedTrack[0]['item'];
             }
         }

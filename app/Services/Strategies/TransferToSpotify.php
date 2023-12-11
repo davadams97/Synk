@@ -23,7 +23,7 @@ class TransferToSpotify implements TransferStrategyInterface
             $spotifyResults = $this->spotifyService->searchTracks($track);
             $matchedTrack = $this->filterTracks($spotifyResults, $track);
 
-            if (!empty($matchedTrack)) {
+            if (! empty($matchedTrack)) {
                 $songsToAdd[] = $matchedTrack[0]['item'];
             }
         }
