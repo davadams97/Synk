@@ -84,6 +84,23 @@ class TransferController extends Controller
     }
 
     private function addSongToPlaylist(array $videoIds, string $playlistId)
+    private function addSongToPlaylist(string $provider, array $trackIds, string $playlistId)
+    {
+        switch ($provider) {
+            case 'ytmusic':
+                $response = Http::withHeaders(['Content-Type' => 'application/json'])->post(env('YOUTUBE_API').'playlists/'.$playlistId.'/add-songs', [
+                    'videoIds' => $trackIds,
+                ]);
+                $response->throw();
+
+                break;
+
+            case 'spotify':
+                $response = $this->spotifyService->addToPlaylist($playlistId, $trackIds);
+                $response->throw();
+
+                break;
+        }
     {
         $response = Http::withHeaders(['Content-Type' => 'application/json'])->post(env('YOUTUBE_API').'playlists/'.$playlistId.'/add-songs', [
             'videoIds' => $videoIds,
