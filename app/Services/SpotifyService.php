@@ -42,7 +42,7 @@ class SpotifyService
     {
         return Http::spotify()->post(
             '/playlists/'.$playlistId.'/tracks',
-            ['uris' => $trackIds]
+            ['uris' => $trackIds, 'position' => 0]
         );
     }
 
