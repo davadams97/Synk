@@ -34,10 +34,6 @@ class TransferToYTMusic implements TransferStrategyInterface
             $tracksIDsToAdd = array_map(fn ($song) => $song['videoId'], $tracksToAdd);
             $this->service->addToPlaylist($playlistIdResponse, $tracksIDsToAdd);
         }
-
-        if ($playlistIdResponse->failed()) {
-            $this->service->deletePlaylist($playlistIdResponse);
-        }
     }
 
     private function filterTracks($tracks, $targetTrack)
