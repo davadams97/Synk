@@ -8,23 +8,23 @@ use Fuse\Fuse;
 
 class TransferToSpotify implements TransferStrategyInterface
 {
-    protected SpotifyService $spotifyService;
+    protected SpotifyService $service;
 
     public function setService($service)
     {
-        $this->spotifyService = $service;
+        $this->service = $service;
     }
 
     public function transferPlaylist($tracks, $playlistId, $playlistTitle)
     {
-        $songsToAdd = [];
+        $tracksToAdd = [];
 
         foreach ($tracks as $track) {
-            $spotifyResults = $this->spotifyService->searchTracks($track);
+            $spotifyResults = $this->service->searchTracks($track);
             $matchedTrack = $this->filterTracks($spotifyResults, $track);
 
             if (! empty($matchedTrack)) {
-                $songsToAdd[] = $matchedTrack[0]['item'];
+                $tracksToAdd[] = $matchedTrack[0]['item'];
             }
         }
     }
