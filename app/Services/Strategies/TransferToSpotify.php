@@ -55,41 +55,4 @@ class TransferToSpotify implements TransferStrategyInterface
 
         return $fuse->search($targetTrack, ['limit' => 1]);
     }
-
-    //         foreach ($request['name'] as $song) {
-    //             $result = $this->findSongFromSpotify($song);
-    //             if (! empty($result)) {
-    //                 $songsToAdd[] = $result[0]['item'];
-    //             }
-    //         }
-
-    //         // info(array_map(fn ($song) => $song['uri'], $songsToAdd));
-
-    //         // info($songsToAdd);
-    //         $userProfile = $this->spotifyService->getProfile();
-    //         $playlists = $this->spotifyService->getPlaylists();
-
-    //         $filter = [
-    //             'keys' => [
-    //                 'name',
-    //             ],
-    //             'shouldSort' => true,
-    //         ];
-    //         $fuse = new Fuse($playlists, $filter);
-
-    //         // $matchedResult = $fuse->search(['title' => $songName], ['limit' => 1]);
-    //         $matchedResult = $fuse->search($request['title'], ['limit' => 1]);
-
-    //         $response = $this->spotifyService->createPlaylist($request['title'], $userProfile['id']);
-
-    //         if ($response->successful()) {
-    //             $songsToAddIds = array_map(fn ($song) => $song['uri'], $songsToAdd);
-    //             info($matchedResult);
-    //             $this->addSongToPlaylist('spotify', $songsToAddIds, $matchedResult[0]['item']['id']);
-    //         }
-
-    //         // if ($response->failed()) {
-    //         //     $this->deletePlaylist($response);
-    //         // }
-    //     }
 }
