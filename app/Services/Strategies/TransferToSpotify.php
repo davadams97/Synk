@@ -27,6 +27,17 @@ class TransferToSpotify implements TransferStrategyInterface
                 $tracksToAdd[] = $matchedTrack[0]['item'];
             }
         }
+
+        $userId = $this->service->getProfile()['id'];
+
+        $playlistIdResponse = $this->service->createPlaylist($playlistTitle, $userId);
+
+        if ($playlistIdResponse->successful()) {
+            $tracksIDsToAdd = array_map(fn ($song) => $song['uri'], $tracksToAdd);
+            info($playlistIdResponse['id']);
+            info($tracksIDsToAdd);
+            $this->service->addToPlaylist($playlistIdResponse['id'], $tracksIDsToAdd);
+        }
     }
 
     private function filterTracks($tracks, $targetTrack)
