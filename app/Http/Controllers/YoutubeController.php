@@ -6,7 +6,7 @@ use App\Services\SpotifyService;
 use App\Services\YoutubeMusicService;
 use Illuminate\Http\Request;
 use Inertia\Response;
-use TransferStrategyFactory;
+use App\Services\Factories\TransferStrategyFactory;
 
 class YoutubeController extends Controller
 {
@@ -51,7 +51,7 @@ class YoutubeController extends Controller
         ]);
     }
 
-    public function store(Request $request, $playlistId): Response
+    public function store(Request $request, $playlistId)
     {
         $strategy = $request['targetProvider'];
         $transferStrategy = TransferStrategyFactory::create($strategy);
@@ -60,6 +60,6 @@ class YoutubeController extends Controller
             $transferStrategy->setService(new SpotifyService());
         }
 
-        $transferStrategy->transferPlaylist($request['name'], $playlistId);
+        $transferStrategy->transferPlaylist($request['name'], $playlistId, $request['title']);
     }
 }
