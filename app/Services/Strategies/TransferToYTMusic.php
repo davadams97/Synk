@@ -8,7 +8,7 @@ use Fuse\Fuse;
 
 class TransferToYTMusic implements TransferStrategyInterface
 {
-    private YoutubeMusicService $service;
+    protected YoutubeMusicService $service;
 
     public function setService($service)
     {
