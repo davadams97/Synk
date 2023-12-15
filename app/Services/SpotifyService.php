@@ -56,4 +56,9 @@ class SpotifyService
             ]
         )['tracks']['items'];
     }
+
+    public function unfollowPlaylist($playlistId)
+    {
+        return Http::spotify()->delete('/playlist/'.$playlistId.'/followers');
+    }
 }
