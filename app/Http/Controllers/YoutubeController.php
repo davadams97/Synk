@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Factories\TransferStrategyFactory;
+use App\Services\SpotifyService;
 use App\Services\YoutubeMusicService;
+use Illuminate\Http\Request;
 use Inertia\Response;
 
 class YoutubeController extends Controller
@@ -33,7 +36,7 @@ class YoutubeController extends Controller
         $playlistData = $this->youtubeMusicService->getPlaylist($playlistId);
         $playlistName = $playlistData['title'];
 
-        $playlist = array_map(
+        $trackList = array_map(
             fn ($entry) => [
                 'columns' => [$entry['title'], $entry['album']['name'] ?? ''],
                 'id' => $entry['videoId'],
@@ -42,8 +45,21 @@ class YoutubeController extends Controller
         );
 
         return inertia('Youtube/Show', [
-            'playlist' => $playlist,
+            'trackList' => $trackList,
             'playlistName' => $playlistName,
+            'playlistId' => $playlistId,
         ]);
+    }
+
+    public function store(Request $request, $playlistId)
+    {
+        $strategy = $request['targetProvider'];
+        $transferStrategy = TransferStrategyFactory::create($strategy);
+
+        if ($strategy == 'spotify') {
+            $transferStrategy->setService(new SpotifyService());
+        }
+
+        $transferStrategy->transferPlaylist($request['name'], $playlistId, $request['title']);
     }
 }

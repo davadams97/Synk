@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SpotifyController;
-use App\Http\Controllers\TransferController;
 use App\Http\Controllers\YoutubeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -17,6 +16,7 @@ Route::get('/', [HomePageController::class, 'index']);
 Route::name('spotify')->group(function () {
     Route::name('.playlist')->get('/spotify/playlist', [SpotifyController::class, 'index']);
     Route::name('.playlist.list')->get('/spotify/playlist/{playlistId}', [SpotifyController::class, 'show']);
+    Route::name('.playlist.transfer')->post('/spotify/playlist/{playlistId}/transfer', [SpotifyController::class, 'store']);
     Route::name('.authorize')->get('/spotify/auth/redirect', function (Request $request) {
         $request->session()->put('state', $state = Str::random(40));
 
@@ -34,7 +34,7 @@ Route::name('spotify')->group(function () {
             'client_id' => env('SPOTIFY_CLIENT_ID'),
             'redirect_uri' => 'http://localhost:8000/spotify/auth/access-token',
             'response_type' => 'code',
-            'scope' => 'user-read-private user-read-email playlist-read-private',
+            'scope' => 'user-read-private user-read-email playlist-read-private playlist-modify-public playlist-modify-private',
             'state' => $state,
             'code_challenge' => $codeChallenge,
             'code_challenge_method' => 'S256',
@@ -69,8 +69,5 @@ Route::name('spotify')->group(function () {
 Route::name('youtube')->group(function () {
     Route::name('.playlist')->get('/youtube/playlist', [YoutubeController::class, 'index']);
     Route::name('.playlist.list')->get('/youtube/playlist/{playlistId}', [YoutubeController::class, 'show']);
-});
-
-Route::name('transfer')->group(function () {
-    Route::name('.playlist')->post('/transfer/playlist', [TransferController::class, 'store']);
+    Route::name('.playlist.transfer')->post('/youtube/playlist/{playlistId}/transfer', [YoutubeController::class, 'store']);
 });
