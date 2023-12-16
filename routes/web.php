@@ -59,6 +59,8 @@ Route::name('spotify')->group(function () {
             'code' => $request->code,
         ]);
 
+        session()->forget(['state','code_verifier']);
+
         session(
             [
                 'spotifyAccessToken' => $response->json('access_token'),
