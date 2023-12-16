@@ -59,8 +59,13 @@ Route::name('spotify')->group(function () {
             'code' => $request->code,
         ]);
 
-        session(['spotifyAccessToken' => $response->json('access_token')]);
-        session(['spotifyRefreshToken' => $response->json('refresh_token')]);
+        session(
+            [
+                'spotifyAccessToken' => $response->json('access_token'),
+                'spotifyRefreshToken' => $response->json('refresh_token'),
+                'expiresAt' => now()->addSeconds($response->json('expires_in'))->timestamp,
+            ]
+        );
 
         return redirect()->route('spotify.playlist');
     });
