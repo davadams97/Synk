@@ -10,17 +10,10 @@
     </div>
 </template>
 
-<script setup>
-const buttonConfig = [
-    {
-        providerName: "Spotify",
-        label: "Connect to Spotify",
-        href: route("spotify.authorize"),
-    },
-    {
-        providerName: "Youtube Music",
-        label: "Connect to Youtube Music",
-        href: route("youtube.playlist"),
-    },
-];
+<script setup lang="ts">
+
+defineProps<{
+    buttonConfig: {providerName: string, label: string, href: string}[]
+}>();
+
 </script>

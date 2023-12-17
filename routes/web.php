@@ -3,6 +3,8 @@
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\YoutubeController;
+use Google\Client;
+use Google\Service\YouTube;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -59,8 +61,15 @@ Route::name('spotify')->group(function () {
             'code' => $request->code,
         ]);
 
-        session(['spotifyAccessToken' => $response->json('access_token')]);
-        session(['spotifyRefreshToken' => $response->json('refresh_token')]);
+        session()->forget(['state','code_verifier']);
+
+        session(
+            [
+                'spotifyAccessToken' => $response->json('access_token'),
+                'spotifyRefreshToken' => $response->json('refresh_token'),
+                'spotifyExpiresAt' => now()->addSeconds($response->json('expires_in'))->timestamp,
+            ]
+        );
 
         return redirect()->route('spotify.playlist');
     });
@@ -70,4 +79,33 @@ Route::name('youtube')->group(function () {
     Route::name('.playlist')->get('/youtube/playlist', [YoutubeController::class, 'index']);
     Route::name('.playlist.list')->get('/youtube/playlist/{playlistId}', [YoutubeController::class, 'show']);
     Route::name('.playlist.transfer')->post('/youtube/playlist/{playlistId}/transfer', [YoutubeController::class, 'store']);
+    Route::name('.authorize')->get('/youtube/auth/redirect', function () {
+        $client = new Client();
+        $client->setAuthConfig(json_decode(env('GOOGLE_CLIENT_SECRET'), true));
+        $client->setRedirectUri('http://localhost:8000/youtube/auth/access-token');
+        $client->addScope(YOUTUBE::class::YOUTUBE_FORCE_SSL);
+        $client->setAccessType('offline');
+        $client->setState(Str::random(40));
+        $client->setPrompt('consent');
+        $auth_url = $client->createAuthUrl();
+
+        return redirect($auth_url);
+    });
+    Route::name('.accessToken')->get('/youtube/auth/access-token', function (Request $request) {
+        $client = new Client();
+        $client->setAuthConfig(json_decode(env('GOOGLE_CLIENT_SECRET'), true));
+        $client->addScope(YOUTUBE::class::YOUTUBE_FORCE_SSL);
+
+        $client->fetchAccessTokenWithAuthCode($request['code']);
+
+        session(
+            [
+                'ytMusicAccessToken' => $client->getAccessToken()['access_token'],
+                'ytMusicRefreshToken' => $client->getRefreshToken(),
+                'ytMusicExpiresAt' => now()->addSeconds($client->getAccessToken()['expires_in'])->timestamp,
+            ]
+        );
+
+        return redirect()->route('youtube.playlist');
+    });
 });
