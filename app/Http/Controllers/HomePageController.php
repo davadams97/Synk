@@ -16,8 +16,8 @@ class HomePageController extends Controller
             ],
             [
                 'providerName' => 'Youtube Music',
-                'label' => 'Connect to Youtube Music',
-                'href' => route('youtube.playlist'),
+                'label' => session('ytMusicAccessToken') ? 'View Youtube Music Playlist' : 'Connect to Youtube Music',
+                'href' => session('ytMusicRefreshToken') ? route('youtube.playlist') : route('youtube.authorize'),
             ],
         ];
 
