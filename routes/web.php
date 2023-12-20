@@ -15,6 +15,8 @@ require __DIR__.'/auth.php';
 /** Inertia Routes */
 Route::get('/', [HomePageController::class, 'index']);
 
+Route::get('/home', [HomePageController::class, 'show']);
+
 Route::name('spotify')->group(function () {
     Route::name('.playlist')->get('/spotify/playlist', [SpotifyController::class, 'index']);
     Route::name('.playlist.list')->get('/spotify/playlist/{playlistId}', [SpotifyController::class, 'show']);
