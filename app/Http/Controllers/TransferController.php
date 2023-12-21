@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
 
 class TransferController extends Controller
@@ -11,12 +12,16 @@ class TransferController extends Controller
         $buttonConfig = [
             [
                 'providerName' => 'Spotify',
-                'label' => session('spotifyAccessToken') ? 'View Spotify Playlist' : 'Connect to Spotify',
+                'logo' => Storage::url('spotify_logo.png'),
+                'alt' => 'spotify_logo',
+                'isConnected' => session('spotifyAccessToken'),
                 'href' => session('spotifyAccessToken') ? route('spotify.playlist') : route('spotify.authorize'),
             ],
             [
                 'providerName' => 'Youtube Music',
-                'label' => session('ytMusicAccessToken') ? 'View Youtube Music Playlist' : 'Connect to Youtube Music',
+                'logo' => Storage::url('youtube_music_logo.png'),
+                'alt' => 'youtube_music_logo',
+                'isConnected' => session('ytMusicAccessToken'),
                 'href' => session('ytMusicRefreshToken') ? route('youtube.playlist') : route('youtube.authorize'),
             ],
         ];
