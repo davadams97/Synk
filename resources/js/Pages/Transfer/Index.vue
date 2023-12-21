@@ -3,7 +3,7 @@
         <div class="flex flex-row h-full items-start">
             <a
                 v-for="button in buttonConfig"
-                class="flex relative text-slate-50 w-50 h-50 m-4 p-4 hover:bg-slate-700 focus:ring-4 focus:ring-blue-300
+                class="flex relative text-slate-50 w-50 h-50 m-4 p-4 hover:bg-slate-700
                  items-center rounded-md"
                 :href="button.href"
             >
@@ -23,7 +23,7 @@
         <div class="flex flex-row h-full items-start">
             <a
                 v-for="button in buttonConfig"
-                class="flex relative text-slate-50 w-50 h-50 m-4 p-4 hover:bg-slate-700 focus:ring-4 focus:ring-blue-300
+                class="flex relative text-slate-50 w-50 h-50 m-4 p-4 hover:bg-slate-700
                  items-center rounded-md"
                 :href="button.href"
             >
