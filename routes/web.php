@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SpotifyController;
+use App\Http\Controllers\TransferController;
 use App\Http\Controllers\YoutubeController;
 use Google\Client;
 use Google\Service\YouTube;
@@ -16,6 +17,8 @@ require __DIR__.'/auth.php';
 Route::name('login')->get('/', [HomePageController::class, 'index']);
 
 Route::name('home')->get('/home', [HomePageController::class, 'show']);
+
+Route::name('transfer')->get('/transfer', [TransferController::class, 'index']);
 
 Route::name('spotify')->group(function () {
     Route::name('.playlist')->get('/spotify/playlist', [SpotifyController::class, 'index']);

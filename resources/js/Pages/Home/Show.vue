@@ -23,7 +23,7 @@
                 Synk and take your music anywhere life's rhythm takes you!
             </p>
 
-            <Link :href="route('login')" class="inline-flex items-center px-5 py-3 text-base max-w-fit self-center
+            <Link :href="route('transfer')" class="inline-flex items-center px-5 py-3 text-base max-w-fit self-center
                       font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800
                       focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
                 Let's get started
