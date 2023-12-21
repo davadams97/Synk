@@ -26,4 +26,9 @@ class HomePageController extends Controller
                 'buttonConfig' => $buttonConfig,
             ]);
     }
+
+    public function show(): Response
+    {
+        return inertia('Home/Show');
+    }
 }

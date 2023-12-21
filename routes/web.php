@@ -13,7 +13,9 @@ use Illuminate\Support\Str;
 require __DIR__.'/auth.php';
 
 /** Inertia Routes */
-Route::get('/', [HomePageController::class, 'index']);
+Route::name('login')->get('/', [HomePageController::class, 'index']);
+
+Route::name('home')->get('/home', [HomePageController::class, 'show']);
 
 Route::name('spotify')->group(function () {
     Route::name('.playlist')->get('/spotify/playlist', [SpotifyController::class, 'index']);
