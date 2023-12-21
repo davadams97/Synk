@@ -35,7 +35,6 @@
             </Link>
 
         </div>
-
     </div>
 
 </template>
