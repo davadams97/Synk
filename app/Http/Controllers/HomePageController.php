@@ -21,14 +21,6 @@ class HomePageController extends Controller
             ],
         ];
 
-        return inertia('Home/Index',
-            [
-                'buttonConfig' => $buttonConfig,
-            ]);
-    }
-
-    public function show(): Response
-    {
         return inertia('Home/Show');
     }
 }
