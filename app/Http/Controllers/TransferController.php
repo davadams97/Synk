@@ -7,7 +7,7 @@ use Inertia\Response;
 
 class TransferController extends Controller
 {
-    public function index(): Response
+    public function source(): Response
     {
         $buttonConfig = [
             [
@@ -26,9 +26,12 @@ class TransferController extends Controller
             ],
         ];
 
-        return inertia('Transfer/Index',
+        $header = 'Where would you like to transfer from?';
+
+        return inertia('Transfer/Show',
             [
                 'buttonConfig' => $buttonConfig,
+                'header' => $header
             ]);
     }
 }

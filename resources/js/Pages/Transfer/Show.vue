@@ -1,9 +1,11 @@
 <template>
     <div class="flex flex-col w-screen p-8 m-12">
         <h2 class="text-center font-bold text-3xl text-slate-200">
-            Where would you like to transfer from?
+            {{ header }}
         </h2>
-        <div class="w-1/2 h-screen bg-gray-700/50 flex self-center justify-items-start rounded-2xl p-4 m-8">
+        <div
+            class="w-1/2 h-screen bg-gray-700/50 flex self-center justify-items-start rounded-2xl p-4 m-8"
+        >
             <div class="flex flex-row h-full items-start">
                 <a
                     v-for="button in buttonConfig"
@@ -23,7 +25,6 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script setup lang="ts">
@@ -35,5 +36,6 @@ defineProps<{
         logo: any;
         alt: string;
     }[];
+    header: string;
 }>();
 </script>
