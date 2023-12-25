@@ -38,7 +38,7 @@ class TransferController extends Controller
 
     public function target(Request $request): Response
     {
-        $targetProvider = $request['provider'];
+        $targetProvider = $request['source'];
 
         $buttonConfig = array_values(array_filter([
             [
@@ -56,7 +56,7 @@ class TransferController extends Controller
                 'href' => session('ytMusicRefreshToken') ? 'transfer.target' : 'youtube.authorize',
             ],
         ], fn ($config) => $config['providerName'] != $targetProvider));
-        
+
         $header = 'Where would you like to transfer to?';
 
         return inertia('Transfer/Show',
