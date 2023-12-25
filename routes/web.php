@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SpotifyController;
+use App\Http\Controllers\TransferController;
 use App\Http\Controllers\YoutubeController;
 use Google\Client;
 use Google\Service\YouTube;
@@ -13,9 +14,12 @@ use Illuminate\Support\Str;
 require __DIR__.'/auth.php';
 
 /** Inertia Routes */
-Route::name('login')->get('/', [HomePageController::class, 'index']);
+Route::name('home')->get('/', [HomePageController::class, 'index']);
 
-Route::name('home')->get('/home', [HomePageController::class, 'show']);
+Route::name('transfer')->group(function () {
+    Route::name('.source')->get('/transfer/source', [TransferController::class, 'source']);
+    Route::name('.target')->get('/transfer/target', [TransferController::class, 'target']);
+});
 
 Route::name('spotify')->group(function () {
     Route::name('.playlist')->get('/spotify/playlist', [SpotifyController::class, 'index']);
