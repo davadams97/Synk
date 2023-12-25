@@ -40,23 +40,23 @@ class TransferController extends Controller
     {
         $targetProvider = $request['provider'];
 
-        $buttonConfig = [
+        $buttonConfig = array_values(array_filter([
             [
                 'providerName' => 'spotify',
                 'logo' => Storage::url('spotify_logo.png'),
                 'alt' => 'spotify_logo',
                 'isConnected' => boolval(session('spotifyAccessToken')),
-                'href' => session('spotifyAccessToken') ? '' : 'spotify.authorize',
+                'href' => session('spotifyAccessToken') ? 'transfer.target' : 'spotify.authorize',
             ],
             [
                 'providerName' => 'ytmusic',
                 'logo' => Storage::url('youtube_music_logo.png'),
                 'alt' => 'youtube_music_logo',
                 'isConnected' => boolval(session('ytMusicAccessToken')),
-                'href' => session('ytMusicRefreshToken') ? '' : 'youtube.authorize',
+                'href' => session('ytMusicRefreshToken') ? 'transfer.target' : 'youtube.authorize',
             ],
-        ];
-
+        ], fn ($config) => $config['providerName'] != $targetProvider));
+        
         $header = 'Where would you like to transfer to?';
 
         return inertia('Transfer/Show',
