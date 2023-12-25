@@ -28,9 +28,11 @@
 </template>
 
 <script setup lang="ts">
+type Provider = "spotify" | "ytmusic";
+
 defineProps<{
     buttonConfig: {
-        providerName: string;
+        providerName: Provider;
         isConnected: boolean;
         href: string;
         logo: any;
