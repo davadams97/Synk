@@ -77,7 +77,7 @@ Route::name('spotify')->group(function () {
             ]
         );
 
-        return redirect()->route('transfer.source');
+        return redirect()->route('spotify.playlist');
     });
 });
 
