@@ -6,11 +6,13 @@
         <div
             class="w-1/2 h-screen bg-gray-700/50 flex self-center justify-items-start rounded-2xl p-4 m-8"
         >
-            <div class="flex flex-row h-full items-start">
+            <div
+                class="flex flex-row h-full items-start"
+                v-for="button in buttonConfig"
+            >
                 <a
-                    v-for="button in buttonConfig"
-                    class="flex relative text-slate-50 w-50 h-50 m-4 p-4 hover:bg-slate-700 items-center rounded-md"
-                    :href="button.href"
+                    class="flex focus:outline-none focus:ring focus:ring-violet-300 relative text-slate-50 w-50 h-50 m-4 p-4 hover:bg-slate-700 items-center rounded-md"
+                    :href="route(button.href, { source: button.providerName })"
                 >
                     <img :src="button.logo" :alt="button.alt" />
                     <span
