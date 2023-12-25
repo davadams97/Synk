@@ -15,14 +15,14 @@ class TransferController extends Controller
                 'providerName' => 'spotify',
                 'logo' => Storage::url('spotify_logo.png'),
                 'alt' => 'spotify_logo',
-                'isConnected' => session('spotifyAccessToken'),
+                'isConnected' => boolval(session('spotifyAccessToken')),
                 'href' => session('spotifyAccessToken') ? 'transfer.target' : 'spotify.authorize',
             ],
             [
                 'providerName' => 'ytmusic',
                 'logo' => Storage::url('youtube_music_logo.png'),
                 'alt' => 'youtube_music_logo',
-                'isConnected' => session('ytMusicAccessToken'),
+                'isConnected' => boolval(session('ytMusicAccessToken')),
                 'href' => session('ytMusicRefreshToken') ? 'transfer.target' : 'youtube.authorize',
             ],
         ];
@@ -45,14 +45,14 @@ class TransferController extends Controller
                 'providerName' => 'spotify',
                 'logo' => Storage::url('spotify_logo.png'),
                 'alt' => 'spotify_logo',
-                'isConnected' => session('spotifyAccessToken'),
+                'isConnected' => boolval(session('spotifyAccessToken')),
                 'href' => session('spotifyAccessToken') ? '' : 'spotify.authorize',
             ],
             [
                 'providerName' => 'ytmusic',
                 'logo' => Storage::url('youtube_music_logo.png'),
                 'alt' => 'youtube_music_logo',
-                'isConnected' => session('ytMusicAccessToken'),
+                'isConnected' => boolval(session('ytMusicAccessToken')),
                 'href' => session('ytMusicRefreshToken') ? '' : 'youtube.authorize',
             ],
         ];
