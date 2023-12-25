@@ -17,8 +17,8 @@ require __DIR__.'/auth.php';
 Route::name('home')->get('/', [HomePageController::class, 'index']);
 
 Route::name('transfer')->group(function () {
-    Route::name('.source')->get('/transfer/source', [TransferController::class, 'index']);
-    Route::name('.target')->get('/transfer/target', [TransferController::class, 'index']);
+    Route::name('.source')->get('/transfer/source', [TransferController::class, 'source']);
+    Route::name('.target')->get('/transfer/target', [TransferController::class, 'target']);
 });
 
 Route::name('spotify')->group(function () {
@@ -77,7 +77,7 @@ Route::name('spotify')->group(function () {
             ]
         );
 
-        return redirect()->route('transfer');
+        return redirect()->route('transfer.source');
     });
 });
 
