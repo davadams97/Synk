@@ -8,41 +8,41 @@ class YoutubeMusicService
 {
     public function getProfile()
     {
-        return Http::get(env('YOUTUBE_API').'users/'.env('YOUTUBE_CHANNEL_ID'))->json();
+        return Http::ytmusic()->get('/users/' . env('YOUTUBE_CHANNEL_ID'))->json();
     }
 
     public function getPlaylists()
     {
-        return Http::get(env('YOUTUBE_API').'playlists')->json();
+        return Http::ytmusic()->get('/playlists')->json();
     }
 
     public function getPlaylist($playlistId)
     {
-        return Http::get(env('YOUTUBE_API').'playlists/'.$playlistId)->json();
+        return Http::ytmusic()->get('/playlists/' . $playlistId)->json();
     }
 
     public function createPlaylist(string $title)
     {
-        return Http::withHeaders(['Content-Type' => 'application/json'])->post(env('YOUTUBE_API').'playlists', [
+        return Http::ytmusic()->withHeaders(['Content-Type' => 'application/json'])->post('/playlists', [
             'title' => $title,
         ]);
     }
 
     public function deletePlaylist(string $playlistId)
     {
-        return Http::delete(env('YOUTUBE_API').'playlists/'.$playlistId);
+        return Http::ytmusic()->delete('/playlists/' . $playlistId);
     }
 
     public function addToPlaylist(string $playlistId, $trackIds)
     {
-        return Http::withHeaders(['Content-Type' => 'application/json'])->post(env('YOUTUBE_API').'playlists/'.$playlistId.'/add-songs', [
+        return Http::ytmusic()->withHeaders(['Content-Type' => 'application/json'])->post('/playlists/' . $playlistId, [
             'videoIds' => $trackIds,
         ]);
     }
 
     public function searchTracks($query)
     {
-        return Http::get(env('YOUTUBE_API').'search', [
+        return Http::ytmusic()->get('/search', [
             'query' => $query,
         ]);
     }
