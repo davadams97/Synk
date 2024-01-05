@@ -22,7 +22,9 @@ class AppServiceProvider extends ServiceProvider
     {
         // TODO: check for refresh tokens later
         Http::macro('spotify', function () {
-            return Http::withToken(session('spotifyAccessToken'))->baseUrl('https://api.spotify.com/v1');
+            return Http::withToken(session('spotifyAccessToken'))->baseUrl(env('SPOTIFY_API'));
+        });
+
         Http::macro('ytmusic', function () {
             return Http::withToken(session('ytMusicAccessToken'))->baseUrl(env('YOUTUBE_API'));
         });
