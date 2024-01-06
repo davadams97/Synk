@@ -81,7 +81,7 @@ Route::name('spotify')->group(function () {
     });
 });
 
-Route::name('youtube')->group(function () {
+Route::name('ytMusic')->group(function () {
     Route::name('.playlist')->get('/youtube/playlist', [YoutubeController::class, 'index']);
     Route::name('.playlist.list')->get('/youtube/playlist/{playlistId}', [YoutubeController::class, 'show']);
     Route::name('.playlist.transfer')->post('/youtube/playlist/{playlistId}/transfer', [YoutubeController::class, 'store']);

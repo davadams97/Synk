@@ -23,7 +23,7 @@ class TransferController extends Controller
                 'logo' => Storage::url('youtube_music_logo.png'),
                 'alt' => 'youtube_music_logo',
                 'isConnected' => boolval(session('ytMusicAccessToken')),
-                'href' => session('ytMusicRefreshToken') ? 'transfer.target' : 'youtube.authorize',
+                'href' => session('ytMusicRefreshToken') ? 'ytMusic.playlist' : 'ytMusic.authorize',
             ],
         ];
 
@@ -53,7 +53,7 @@ class TransferController extends Controller
                 'logo' => Storage::url('youtube_music_logo.png'),
                 'alt' => 'youtube_music_logo',
                 'isConnected' => boolval(session('ytMusicAccessToken')),
-                'href' => session('ytMusicRefreshToken') ? 'youtube.playlist' : 'youtube.authorize',
+                'href' => session('ytMusicRefreshToken') ? 'ytMusic.playlist' : 'ytMusic.authorize',
             ],
         ];
 
