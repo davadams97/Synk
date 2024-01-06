@@ -25,7 +25,7 @@ class SpotifyController extends Controller
             $this->spotifyService->getPlaylists()
         );
 
-        return inertia('Playlist/Index', [
+        return inertia('Provider/Index', [
             'userName' => $userName,
             'playlists' => $playlists,
         ]);
@@ -43,7 +43,7 @@ class SpotifyController extends Controller
             $playlistTracks
         );
 
-        return inertia('Spotify/Show', [
+        return inertia('Provider/Show', [
             'trackList' => $trackList,
             'playlistName' => $playlistName,
             'playlistId' => $playlistId,
