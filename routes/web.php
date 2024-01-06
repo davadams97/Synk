@@ -79,7 +79,7 @@ Route::middleware(EnsureSpotifyTokenIsValid::class)->name('spotify')->group(func
             ]
         );
 
-        return redirect()->route('spotify.playlist');
+        return redirect()->route(session('lastRoute'),session('queryParams'));
     });
 });
 
@@ -114,6 +114,6 @@ Route::middleware(EnsureYtMusicTokenIsValid::class)->name('youtube')->group(func
             ]
         );
 
-        return redirect()->route('youtube.playlist');
+        return redirect()->route(session('lastRoute'),session('queryParams'));
     });
 });
