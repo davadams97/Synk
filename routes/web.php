@@ -77,7 +77,7 @@ Route::name('spotify')->group(function () {
             ]
         );
 
-        return redirect()->route('spotify.playlist');
+        return redirect()->route(session('lastRoute'),session('queryParams'));
     });
 });
 
@@ -112,6 +112,6 @@ Route::name('ytMusic')->group(function () {
             ]
         );
 
-        return redirect()->route('youtube.playlist');
+        return redirect()->route(session('lastRoute'),session('queryParams'));
     });
 });
