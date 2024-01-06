@@ -1,7 +1,7 @@
 <template>
     <div class="bg-white rounded-md shadow overflow-x-auto">
         <table class="w-full whitespace-nowrap">
-            <tr class="text-left font-bold">
+            <tr class="text-left font-bold sticky top-0 bg-white">
                 <th v-for="header in headers" class="pb-4 pt-6 px-6">
                     {{ header }}
                 </th>

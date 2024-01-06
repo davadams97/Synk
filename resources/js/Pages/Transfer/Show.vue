@@ -1,11 +1,11 @@
 <template>
-    <div class="flex flex-col w-screen p-8 m-12">
-        <h2 class="text-center font-bold text-3xl text-slate-200">
-            {{ header }}
-        </h2>
-        <div
-            class="w-1/2 h-screen bg-gray-700/50 flex self-center justify-items-start rounded-2xl p-4 m-8"
-        >
+    <container>
+        <template v-slot:header>
+            <h2 class="text-center font-bold text-3xl text-slate-200">
+                {{ header }}
+            </h2>
+        </template>
+        <template v-slot:main>
             <div
                 class="flex flex-row h-full items-start"
                 v-for="button in buttonConfig"
@@ -25,11 +25,13 @@
                     ></span>
                 </a>
             </div>
-        </div>
-    </div>
+        </template>
+    </container>
 </template>
 
 <script setup lang="ts">
+import Container from "@/Components/Container.vue";
+
 type Provider = "spotify" | "ytmusic";
 
 defineProps<{

@@ -25,7 +25,7 @@ class YoutubeController extends Controller
         );
         $userName = $this->youtubeMusicService->getProfile();
 
-        return inertia('Youtube/Index', [
+        return inertia('Provider/Index', [
             'userName' => $userName['name'],
             'playlists' => $playlists,
         ]);
@@ -44,7 +44,7 @@ class YoutubeController extends Controller
             $playlistData['tracks']
         );
 
-        return inertia('Youtube/Show', [
+        return inertia('Provider/Show', [
             'trackList' => $trackList,
             'playlistName' => $playlistName,
             'playlistId' => $playlistId,
