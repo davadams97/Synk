@@ -22,10 +22,7 @@
 <script setup lang="ts">
 import DataTable from "@/Components/DataTable.vue";
 
-type Provider = "spotify" | "ytmusic" | null;
-
 defineProps<{
-    provider: Provider;
     playlists: [];
 }>();
 </script>
