@@ -34,8 +34,6 @@ class TransferToSpotify implements TransferStrategyInterface
 
         if ($playlistIdResponse->successful()) {
             $tracksIDsToAdd = array_map(fn ($song) => $song['uri'], $tracksToAdd);
-            info($playlistIdResponse['id']);
-            info($tracksIDsToAdd);
             $this->service->addToPlaylist($playlistIdResponse['id'], $tracksIDsToAdd);
         }
     }
