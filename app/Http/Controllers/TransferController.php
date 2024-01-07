@@ -35,7 +35,7 @@ class TransferController extends Controller
         return inertia('Transfer/Source',
             [
                 'buttonConfig' => $buttonConfig,
-                'header' => $header
+                'header' => $header,
             ]);
     }
 
@@ -68,7 +68,7 @@ class TransferController extends Controller
         return inertia('Transfer/Target',
             [
                 'buttonConfig' => $buttonConfig,
-                'header' => $header
+                'header' => $header,
                 'sourceProvider' => $sourceProvider
             ]);
     }
