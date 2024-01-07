@@ -55,7 +55,7 @@ class TransferController extends Controller
                 'href' => session('spotifyAccessToken') ? $sourceProvider . '.playlist' : 'spotify.authorize',
             ],
             [
-                'providerName' => 'ytmusic',
+                'providerName' => 'ytMusic',
                 'logo' => Storage::url('youtube_music_logo.png'),
                 'alt' => 'youtube_music_logo',
                 'isConnected' => boolval(session('ytMusicAccessToken')),
