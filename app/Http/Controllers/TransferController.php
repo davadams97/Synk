@@ -32,7 +32,7 @@ class TransferController extends Controller
 
         $header = 'Where would you like to transfer from?';
 
-        return inertia('Transfer/Show',
+        return inertia('Transfer/Source',
             [
                 'buttonConfig' => $buttonConfig,
                 'header' => $header
@@ -64,7 +64,7 @@ class TransferController extends Controller
 
         $header = 'Where would you like to transfer to?';
 
-        return inertia('Transfer/Show',
+        return inertia('Transfer/Target',
             [
                 'buttonConfig' => $buttonConfig,
                 'header' => $header
