@@ -26,7 +26,7 @@ class TransferController extends Controller
                 'logo' => Storage::url('youtube_music_logo.png'),
                 'alt' => 'youtube_music_logo',
                 'isConnected' => boolval(session('ytMusicAccessToken')),
-                'href' => session('ytMusicRefreshToken') ? 'ytMusic.playlist' : 'ytMusic.authorize',
+                'href' => session('ytMusicRefreshToken') ? 'transfer.target' : 'ytMusic.authorize',
             ],
         ];
 
