@@ -41,7 +41,8 @@ class TransferController extends Controller
 
     public function target(Request $request): Response
     {
-        $targetProvider = $request['source'];
+        $sourceProvider = $request['source'];
+
         // Store the last route and query params since Spotify and YouTube authorization happens outside app domain
         session(['lastRoute' => 'transfer.target', 'queryParams' => 'source='.$sourceProvider]);
 
@@ -51,14 +52,14 @@ class TransferController extends Controller
                 'logo' => Storage::url('spotify_logo.png'),
                 'alt' => 'spotify_logo',
                 'isConnected' => boolval(session('spotifyAccessToken')),
-                'href' => session('spotifyAccessToken') ? 'spotify.playlist' : 'spotify.authorize',
+                'href' => session('spotifyAccessToken') ? $sourceProvider . '.playlist' : 'spotify.authorize',
             ],
             [
                 'providerName' => 'ytmusic',
                 'logo' => Storage::url('youtube_music_logo.png'),
                 'alt' => 'youtube_music_logo',
                 'isConnected' => boolval(session('ytMusicAccessToken')),
-                'href' => session('ytMusicRefreshToken') ? 'ytMusic.playlist' : 'ytMusic.authorize',
+                'href' => session('ytMusicRefreshToken') ? $sourceProvider . '.playlist' : 'ytMusic.authorize',
             ],
         ];
 
@@ -68,6 +69,7 @@ class TransferController extends Controller
             [
                 'buttonConfig' => $buttonConfig,
                 'header' => $header
+                'sourceProvider' => $sourceProvider
             ]);
     }
 }
