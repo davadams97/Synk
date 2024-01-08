@@ -21,11 +21,11 @@ Route::name('transfer')->group(function () {
     Route::name('.target')->get('/transfer/target', [TransferController::class, 'target']);
 });
 
-Route::name('spotify')->group(function () {
+Route::middleware(EnsureSpotifyTokenIsValid::class)->name('spotify')->group(function () {
     Route::name('.playlist')->get('/spotify/playlist', [SpotifyController::class, 'index']);
     Route::name('.playlist.list')->get('/spotify/playlist/{playlistId}', [SpotifyController::class, 'show']);
     Route::name('.playlist.transfer')->post('/spotify/playlist/{playlistId}/transfer', [SpotifyController::class, 'store']);
-    Route::name('.authorize')->get('/spotify/auth/redirect', function (Request $request) {
+    Route::withoutMiddleware(EnsureSpotifyTokenIsValid::class)->name('.authorize')->get('/spotify/auth/redirect', function (Request $request) {
         $request->session()->put('state', $state = Str::random(40));
 
         $request->session()->put(
@@ -50,7 +50,7 @@ Route::name('spotify')->group(function () {
 
         return redirect('https://accounts.spotify.com/authorize?'.$query);
     });
-    Route::name('.accessToken')->get('/spotify/auth/access-token', function (Request $request) {
+    Route::withoutMiddleware(EnsureSpotifyTokenIsValid::class)->name('.accessToken')->get('/spotify/auth/access-token', function (Request $request) {
         $state = $request->session()->pull('state');
         $codeVerifier = $request->session()->pull('code_verifier');
 
