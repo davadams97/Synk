@@ -4,6 +4,7 @@ use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\YoutubeController;
+use App\Http\Middleware\EnsureSpotifyTokenIsValid;
 use Google\Client;
 use Google\Service\YouTube;
 use Illuminate\Http\Request;
