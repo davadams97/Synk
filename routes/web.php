@@ -4,6 +4,8 @@ use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\YoutubeController;
+use App\Http\Middleware\EnsureSpotifyTokenIsValid;
+use App\Http\Middleware\EnsureYtMusicTokenIsValid;
 use Google\Client;
 use Google\Service\YouTube;
 use Illuminate\Http\Request;
@@ -21,11 +23,11 @@ Route::name('transfer')->group(function () {
     Route::name('.target')->get('/transfer/target', [TransferController::class, 'target']);
 });
 
-Route::name('spotify')->group(function () {
+Route::middleware(EnsureSpotifyTokenIsValid::class)->name('spotify')->group(function () {
     Route::name('.playlist')->get('/spotify/playlist', [SpotifyController::class, 'index']);
     Route::name('.playlist.list')->get('/spotify/playlist/{playlistId}', [SpotifyController::class, 'show']);
     Route::name('.playlist.transfer')->post('/spotify/playlist/{playlistId}/transfer', [SpotifyController::class, 'store']);
-    Route::name('.authorize')->get('/spotify/auth/redirect', function (Request $request) {
+    Route::withoutMiddleware(EnsureSpotifyTokenIsValid::class)->name('.authorize')->get('/spotify/auth/redirect', function (Request $request) {
         $request->session()->put('state', $state = Str::random(40));
 
         $request->session()->put(
@@ -50,7 +52,7 @@ Route::name('spotify')->group(function () {
 
         return redirect('https://accounts.spotify.com/authorize?'.$query);
     });
-    Route::name('.accessToken')->get('/spotify/auth/access-token', function (Request $request) {
+    Route::withoutMiddleware(EnsureSpotifyTokenIsValid::class)->name('.accessToken')->get('/spotify/auth/access-token', function (Request $request) {
         $state = $request->session()->pull('state');
         $codeVerifier = $request->session()->pull('code_verifier');
 
@@ -81,11 +83,11 @@ Route::name('spotify')->group(function () {
     });
 });
 
-Route::name('youtube')->group(function () {
+Route::middleware(EnsureYtMusicTokenIsValid::class)->name('youtube')->group(function () {
     Route::name('.playlist')->get('/youtube/playlist', [YoutubeController::class, 'index']);
     Route::name('.playlist.list')->get('/youtube/playlist/{playlistId}', [YoutubeController::class, 'show']);
     Route::name('.playlist.transfer')->post('/youtube/playlist/{playlistId}/transfer', [YoutubeController::class, 'store']);
-    Route::name('.authorize')->get('/youtube/auth/redirect', function () {
+    Route::withoutMiddleware(EnsureYtMusicTokenIsValid::class)->name('.authorize')->get('/youtube/auth/redirect', function () {
         $client = new Client();
         $client->setAuthConfig(json_decode(env('GOOGLE_CLIENT_SECRET'), true));
         $client->setRedirectUri('http://localhost:8000/youtube/auth/access-token');
@@ -97,7 +99,7 @@ Route::name('youtube')->group(function () {
 
         return redirect($auth_url);
     });
-    Route::name('.accessToken')->get('/youtube/auth/access-token', function (Request $request) {
+    Route::withoutMiddleware(EnsureYtMusicTokenIsValid::class)->name('.accessToken')->get('/youtube/auth/access-token', function (Request $request) {
         $client = new Client();
         $client->setAuthConfig(json_decode(env('GOOGLE_CLIENT_SECRET'), true));
         $client->addScope(YOUTUBE::class::YOUTUBE_FORCE_SSL);
