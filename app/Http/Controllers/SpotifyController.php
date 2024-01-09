@@ -30,23 +30,6 @@ class SpotifyController extends Controller
             'playlists' => $playlists,
         ]);
     }
-
-    public function show($playlistId): Response
-    {
-        $playlistName = $this->spotifyService->getPlaylist($playlistId)['name'];
-        $playlistTracks = $this->spotifyService->getPlaylistTracks($playlistId);
-        $trackList = array_map(
-            fn ($entry) => [
-                'columns' => [$entry['track']['name'], $entry['track']['album']['name']],
-                'id' => $entry['track']['id'],
-            ],
-            $playlistTracks
-        );
-
-        return inertia('Provider/Show', [
-            'trackList' => $trackList,
-            'playlistName' => $playlistName,
-            'playlistId' => $playlistId,
         ]);
     }
 
