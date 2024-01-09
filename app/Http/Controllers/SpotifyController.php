@@ -16,20 +16,27 @@ class SpotifyController extends Controller
 
     public function index(): Response
     {
-        $userName = $this->spotifyService->getProfile()['display_name'];
         $playlists = array_map(
             fn ($playlist) => [
-                'columns' => [$playlist['name']],
                 'id' => $playlist['id'],
+                'name' => $playlist['name'],
+                'tracks' => array_map(
+                    fn ($entry) => [
+                        'id' => $entry['track']['id'],
+                        'name' => $entry['track']['name'],
+                        'albumName' => $entry['track']['album']['name'],
+                    ],
+                    $this->spotifyService->getPlaylistTracks($playlist['id'])),
+
             ],
             $this->spotifyService->getPlaylists()
         );
 
+        $playlistLength = count($playlists);
+
         return inertia('Provider/Index', [
-            'userName' => $userName,
             'playlists' => $playlists,
-        ]);
-    }
+            'header' => "Playlists ({$playlistLength})"
         ]);
     }
 
