@@ -23,7 +23,7 @@ class SpotifyService
 
     public function getPlaylistTracks($playlistId)
     {
-        $queryParams = ['fields' => 'items(track(name,id,album(name)))'];
+        $queryParams = ['fields' => 'items(track(name,id,album(name, images)))'];
 
         return Http::spotify()->get('/playlists/'.$playlistId.'/tracks', $queryParams)['items'];
     }

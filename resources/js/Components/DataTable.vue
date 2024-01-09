@@ -7,7 +7,7 @@
                 </th>
             </tr>
             <tr
-                v-for="(playlist, index) of playlists"
+                v-for="playlist in playlists"
                 :key="playlist.id"
                 class="hover:bg-gray-100 focus-within:bg-gray-100"
             >
@@ -20,7 +20,9 @@
                             type="checkbox"
                         />
 
-                        {{ playlist.name || "Not Available" }}
+                        <img :src="playlist.coverURL" alt="album art" width="52" height="52"/>
+
+                        <span class="ml-4">{{ playlist.name || "Not Available" }}</span>
                     </span>
 
                     <div
@@ -31,7 +33,8 @@
                             class="mr-2.5 rounded focus:ring-0 text-purple-900 flex self-center"
                             type="checkbox"
                         />
-                        <div class="flex flex-col">
+                        <img :src="track.albumArt" alt="album art" width="52" height="52"/>
+                        <div class="flex flex-col self-center ml-4">
                             <span>{{ track.name }}</span>
                             <span class="text-sm">{{ track.albumName }}</span>
                         </div>

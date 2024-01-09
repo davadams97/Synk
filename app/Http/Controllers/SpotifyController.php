@@ -20,11 +20,13 @@ class SpotifyController extends Controller
             fn ($playlist) => [
                 'id' => $playlist['id'],
                 'name' => $playlist['name'],
+                'coverURL' => count($playlist['images']) ? $playlist['images'][0]['url'] : '',
                 'tracks' => array_map(
                     fn ($entry) => [
                         'id' => $entry['track']['id'],
                         'name' => $entry['track']['name'],
                         'albumName' => $entry['track']['album']['name'],
+                        'albumArt' => $entry['track']['album']['images'][0]['url']
                     ],
                     $this->spotifyService->getPlaylistTracks($playlist['id'])),
 
