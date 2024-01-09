@@ -6,6 +6,7 @@ use App\Services\Factories\TransferStrategyFactory;
 use App\Services\SpotifyService;
 use App\Services\YoutubeMusicService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
 
 class SpotifyController extends Controller
@@ -20,7 +21,7 @@ class SpotifyController extends Controller
             fn ($playlist) => [
                 'id' => $playlist['id'],
                 'name' => $playlist['name'],
-                'coverURL' => count($playlist['images']) ? $playlist['images'][0]['url'] : '',
+                'coverURL' => count($playlist['images']) ? $playlist['images'][0]['url'] : Storage::url('no_art.png'),
                 'tracks' => array_map(
                     fn ($entry) => [
                         'id' => $entry['track']['id'],
