@@ -1,17 +1,17 @@
 <template>
-    <div class="bg-white rounded-md shadow overflow-x-auto">
-        <table class="w-full whitespace-nowrap">
-            <tr class="text-left font-bold sticky top-0 bg-white">
-                <th class="pb-4 pt-6 px-6">
+    <div class="bg-transparent rounded-md overflow-x-auto">
+        <table class="w-full whitespace-nowrap text-white">
+            <tr class="text-left font-bold sticky">
+                <th class="pb-4 pt-6">
                     {{ header }}
                 </th>
             </tr>
             <tr
                 v-for="playlist in playlists"
                 :key="playlist.id"
-                class="hover:bg-gray-100 focus-within:bg-gray-100"
+                class=""
             >
-                <td class="border-t">
+                <td class="border-t border-gray-600">
                     <span
                         class="flex items-center px-6 py-4 focus:text-indigo-500"
                     >
