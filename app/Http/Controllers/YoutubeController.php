@@ -29,24 +29,7 @@ class YoutubeController extends Controller
             'userName' => $userName['name'],
             'playlists' => $playlists,
         ]);
-    }
-
-    public function show($playlistId): Response
-    {
-        $playlistData = $this->youtubeMusicService->getPlaylist($playlistId);
-        $playlistName = $playlistData['title'];
-
-        $trackList = array_map(
-            fn ($entry) => [
-                'columns' => [$entry['title'], $entry['album']['name'] ?? ''],
-                'id' => $entry['videoId'],
-            ],
-            $playlistData['tracks']
-        );
-
-        return inertia('Provider/Show', [
-            'trackList' => $trackList,
-            'playlistName' => $playlistName,
+            'transferRoute' => "ytMusic.playlist.transfer"
             'playlistId' => $playlistId,
         ]);
     }
