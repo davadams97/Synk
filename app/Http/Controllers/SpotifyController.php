@@ -42,7 +42,7 @@ class SpotifyController extends Controller
         ]);
     }
 
-    public function store(Request $request, $playlistId)
+    public function store(Request $request)
     {
         $strategy = $request['targetProvider'];
         $transferStrategy = TransferStrategyFactory::create($strategy);
@@ -51,6 +51,6 @@ class SpotifyController extends Controller
             $transferStrategy->setService(new YoutubeMusicService());
         }
 
-        $transferStrategy->transferPlaylist($request['name'], $playlistId, $request['title']);
+        $transferStrategy->transferPlaylist($request['name'], $request['title']);
     }
 }
