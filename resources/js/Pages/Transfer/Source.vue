@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import Container from "@/Components/Container.vue";
 
-type Provider = "spotify" | "ytmusic";
+type Provider = "spotify" | "ytMusic";
 
 defineProps<{
     buttonConfig: {

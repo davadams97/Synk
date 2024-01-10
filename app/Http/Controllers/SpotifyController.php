@@ -6,6 +6,7 @@ use App\Services\Factories\TransferStrategyFactory;
 use App\Services\SpotifyService;
 use App\Services\YoutubeMusicService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
 
 class SpotifyController extends Controller
@@ -16,49 +17,44 @@ class SpotifyController extends Controller
 
     public function index(): Response
     {
-        $userName = $this->spotifyService->getProfile()['display_name'];
         $playlists = array_map(
             fn ($playlist) => [
-                'columns' => [$playlist['name']],
                 'id' => $playlist['id'],
+                'name' => $playlist['name'],
+                'coverURL' => count($playlist['images']) ? $playlist['images'][0]['url'] : Storage::url('no_art.png'),
+                'tracks' => array_map(
+                    fn ($entry) => [
+                        'id' => $entry['track']['id'],
+                        'name' => $entry['track']['name'],
+                        'albumName' => $entry['track']['album']['name'],
+                        'albumArt' => $entry['track']['album']['images'][0]['url']
+                    ],
+                    $this->spotifyService->getPlaylistTracks($playlist['id'])),
             ],
             $this->spotifyService->getPlaylists()
         );
 
+        $playlistLength = count($playlists);
+
         return inertia('Provider/Index', [
-            'userName' => $userName,
             'playlists' => $playlists,
+            'header' => "Playlists ({$playlistLength})",
+            'transferRoute' => "spotify.playlist.transfer"
         ]);
     }
 
-    public function show($playlistId): Response
-    {
-        $playlistName = $this->spotifyService->getPlaylist($playlistId)['name'];
-        $playlistTracks = $this->spotifyService->getPlaylistTracks($playlistId);
-        $trackList = array_map(
-            fn ($entry) => [
-                'columns' => [$entry['track']['name'], $entry['track']['album']['name']],
-                'id' => $entry['track']['id'],
-            ],
-            $playlistTracks
-        );
-
-        return inertia('Provider/Show', [
-            'trackList' => $trackList,
-            'playlistName' => $playlistName,
-            'playlistId' => $playlistId,
-        ]);
-    }
-
-    public function store(Request $request, $playlistId)
+    public function store(Request $request)
     {
         $strategy = $request['targetProvider'];
+
+        // TODO: handle case when target provider is not provided
+
         $transferStrategy = TransferStrategyFactory::create($strategy);
 
-        if ($strategy == 'ytmusic') {
+        if ($strategy == 'ytMusic') {
             $transferStrategy->setService(new YoutubeMusicService());
         }
 
-        $transferStrategy->transferPlaylist($request['name'], $playlistId, $request['title']);
+        $transferStrategy->transferPlaylist($request['name'], $request['title']);
     }
 }

@@ -4,7 +4,7 @@
             class="flex items-end flex-col mb-4 text-right text-4xl font-bold leading-none tracking-tight md:text-5xl lg:text-6xl text-slate-200"
         >
             <span class="w-max pb-2 text-right">Your Playlist</span>
-            <span class="w-max pb-2"> Your Rules</span>
+            <span class="w-max pb-2">Your Rules</span>
             <span class="w-max pb-2">Any Platform!</span>
         </h1>
 
@@ -12,12 +12,13 @@
             <h3
                 class="text-center mb-4 text-ld font-bold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"
             >
+                Get started with
+
                 <span
                     class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400"
                 >
-                    Get started with
+                    Synk
                 </span>
-                Synk
             </h3>
 
             <p

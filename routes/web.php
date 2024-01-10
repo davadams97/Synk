@@ -25,8 +25,7 @@ Route::name('transfer')->group(function () {
 
 Route::middleware(EnsureSpotifyTokenIsValid::class)->name('spotify')->group(function () {
     Route::name('.playlist')->get('/spotify/playlist', [SpotifyController::class, 'index']);
-    Route::name('.playlist.list')->get('/spotify/playlist/{playlistId}', [SpotifyController::class, 'show']);
-    Route::name('.playlist.transfer')->post('/spotify/playlist/{playlistId}/transfer', [SpotifyController::class, 'store']);
+    Route::name('.playlist.transfer')->post('/spotify/playlist/transfer', [SpotifyController::class, 'store']);
     Route::withoutMiddleware(EnsureSpotifyTokenIsValid::class)->name('.authorize')->get('/spotify/auth/redirect', function (Request $request) {
         $request->session()->put('state', $state = Str::random(40));
 
@@ -79,14 +78,13 @@ Route::middleware(EnsureSpotifyTokenIsValid::class)->name('spotify')->group(func
             ]
         );
 
-        return redirect()->route('spotify.playlist');
+        return redirect()->route(session('lastRoute'),session('queryParams'));
     });
 });
 
-Route::middleware(EnsureYtMusicTokenIsValid::class)->name('youtube')->group(function () {
+Route::middleware(EnsureYtMusicTokenIsValid::class)->name('ytMusic')->group(function () {
     Route::name('.playlist')->get('/youtube/playlist', [YoutubeController::class, 'index']);
-    Route::name('.playlist.list')->get('/youtube/playlist/{playlistId}', [YoutubeController::class, 'show']);
-    Route::name('.playlist.transfer')->post('/youtube/playlist/{playlistId}/transfer', [YoutubeController::class, 'store']);
+    Route::name('.playlist.transfer')->post('/youtube/playlist/transfer', [YoutubeController::class, 'store']);
     Route::withoutMiddleware(EnsureYtMusicTokenIsValid::class)->name('.authorize')->get('/youtube/auth/redirect', function () {
         $client = new Client();
         $client->setAuthConfig(json_decode(env('GOOGLE_CLIENT_SECRET'), true));
@@ -114,6 +112,6 @@ Route::middleware(EnsureYtMusicTokenIsValid::class)->name('youtube')->group(func
             ]
         );
 
-        return redirect()->route('youtube.playlist');
+        return redirect()->route(session('lastRoute'),session('queryParams'));
     });
 });

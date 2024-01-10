@@ -15,7 +15,7 @@ class TransferToSpotify implements TransferStrategyInterface
         $this->service = $service;
     }
 
-    public function transferPlaylist($tracks, $playlistId, $playlistTitle)
+    public function transferPlaylist($tracks, $playlistTitle)
     {
         $tracksToAdd = [];
 

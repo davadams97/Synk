@@ -6,5 +6,5 @@ interface TransferStrategyInterface
 {
     public function setService($service);
 
-    public function transferPlaylist(array $tracks, string $playlistId, string $playlistTitle);
+    public function transferPlaylist(array $tracks, string $playlistTitle);
 }

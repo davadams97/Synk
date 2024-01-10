@@ -1,55 +1,72 @@
 <template>
-    <div class="bg-white rounded-md shadow overflow-x-auto">
-        <table class="w-full whitespace-nowrap">
-            <tr class="text-left font-bold sticky top-0 bg-white">
-                <th v-for="header in headers" class="pb-4 pt-6 px-6">
+    <div class="bg-transparent rounded-md overflow-x-auto">
+        <table class="w-full whitespace-nowrap text-white">
+            <tr class="text-left font-bold sticky">
+                <th class="pb-4 pt-6">
                     {{ header }}
                 </th>
             </tr>
-            <tr
-                v-for="entry of dataList"
-                :key="entry.id"
-                class="hover:bg-gray-100 focus-within:bg-gray-100"
-            >
-                <td v-for="col of entry.columns" :key="col" class="border-t">
-                    <Link
-                        v-if="routeData"
-                        class="flex items-center px-6 py-4 focus:text-indigo-500"
-                        :href="route(routeData.name, entry[routeData.params])"
-                    >
-                        {{ col || "Not Available" }}
-                    </Link>
+            <tr v-for="playlist in playlists" :key="playlist.id">
+                <td class="border-t border-gray-600">
                     <span
-                        v-else
                         class="flex items-center px-6 py-4 focus:text-indigo-500"
                     >
-                        {{ col || "Not Available" }}
+                        <input
+                            class="mr-2.5 rounded focus:ring-0 text-purple-900"
+                            type="checkbox"
+                        />
+
+                        <img
+                            :src="playlist.coverURL"
+                            alt="album art"
+                            width="52"
+                            height="52"
+                        />
+
+                        <span class="ml-4">{{
+                            playlist.name || "Not Available"
+                        }}</span>
                     </span>
+
+                    <div
+                        v-for="track in playlist.tracks"
+                        class="flex pb-3 mr-3.5 ml-20"
+                    >
+                        <input
+                            class="mr-2.5 rounded focus:ring-0 text-purple-900 flex self-center"
+                            type="checkbox"
+                            :value="track.name"
+                            v-model="model"
+                        />
+                        <img
+                            :src="track.albumArt"
+                            alt="album art"
+                            width="52"
+                            height="52"
+                        />
+                        <div class="flex flex-col self-center ml-4">
+                            <span>{{ track.name }}</span>
+                            <span class="text-sm">{{ track.albumName }}</span>
+                        </div>
+                    </div>
                 </td>
             </tr>
-            <tr v-if="dataList.length === 0">
+
+            <tr v-if="playlists.length === 0">
                 <td class="px-6 py-4 border-t" colspan="4">
-                    {{ noDataText }}
+                    {{ "No playlists found" }}
                 </td>
             </tr>
         </table>
     </div>
 </template>
 <script setup lang="ts">
-import { Link } from "@inertiajs/vue3";
-
-interface Entry {
-    id: string | number;
-    columns: string[];
-}
+import { Playlist } from "@/Types/Playlist";
 
 defineProps<{
-    dataList: Entry[];
-    routeData?: {
-        name: string;
-        params: string;
-    };
-    headers: string[];
-    noDataText: string;
+    playlists: Playlist[];
+    header: string;
 }>();
+
+const model = defineModel({ type: Array, default: [] });
 </script>
