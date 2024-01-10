@@ -30,7 +30,6 @@ class SpotifyController extends Controller
                         'albumArt' => $entry['track']['album']['images'][0]['url']
                     ],
                     $this->spotifyService->getPlaylistTracks($playlist['id'])),
-
             ],
             $this->spotifyService->getPlaylists()
         );
