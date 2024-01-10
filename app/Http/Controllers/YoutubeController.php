@@ -6,6 +6,7 @@ use App\Services\Factories\TransferStrategyFactory;
 use App\Services\SpotifyService;
 use App\Services\YoutubeMusicService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
 
 class YoutubeController extends Controller
@@ -18,19 +19,27 @@ class YoutubeController extends Controller
     {
         $playlists = array_map(
             fn ($playlist) => [
-                'columns' => [$playlist['title']],
                 'id' => $playlist['playlistId'],
+                'name' => $playlist['title'],
+                'coverURL' => count($playlist['thumbnails']) ? $playlist['thumbnails'][0]['url'] : Storage::url('no_art.png'),
+                'tracks' => array_map(
+                    fn ($entry) => [
+                        'id' => $entry['videoId'],
+                        'name' => $entry['title'],
+                        'albumName' => $entry['album']['name'] ?? '',
+                        'albumArt' => count($entry['thumbnails']) ? $entry['thumbnails'][0]['url'] : Storage::url('no_art.png')
+                    ],
+                    $this->youtubeMusicService->getPlaylist($playlist['playlistId'])['tracks']),
             ],
             $this->youtubeMusicService->getPlaylists()
         );
-        $userName = $this->youtubeMusicService->getProfile();
+
+        $playlistLength = count($playlists);
 
         return inertia('Provider/Index', [
-            'userName' => $userName['name'],
             'playlists' => $playlists,
-        ]);
+            'header' => "Playlists ({$playlistLength})",
             'transferRoute' => "ytMusic.playlist.transfer"
-            'playlistId' => $playlistId,
         ]);
     }
 
