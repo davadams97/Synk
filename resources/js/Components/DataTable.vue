@@ -6,11 +6,7 @@
                     {{ header }}
                 </th>
             </tr>
-            <tr
-                v-for="playlist in playlists"
-                :key="playlist.id"
-                class=""
-            >
+            <tr v-for="playlist in playlists" :key="playlist.id">
                 <td class="border-t border-gray-600">
                     <span
                         class="flex items-center px-6 py-4 focus:text-indigo-500"
@@ -20,9 +16,16 @@
                             type="checkbox"
                         />
 
-                        <img :src="playlist.coverURL" alt="album art" width="52" height="52"/>
+                        <img
+                            :src="playlist.coverURL"
+                            alt="album art"
+                            width="52"
+                            height="52"
+                        />
 
-                        <span class="ml-4">{{ playlist.name || "Not Available" }}</span>
+                        <span class="ml-4">{{
+                            playlist.name || "Not Available"
+                        }}</span>
                     </span>
 
                     <div
@@ -32,8 +35,15 @@
                         <input
                             class="mr-2.5 rounded focus:ring-0 text-purple-900 flex self-center"
                             type="checkbox"
+                            :value="track.name"
+                            v-model="selectedTracks"
                         />
-                        <img :src="track.albumArt" alt="album art" width="52" height="52"/>
+                        <img
+                            :src="track.albumArt"
+                            alt="album art"
+                            width="52"
+                            height="52"
+                        />
                         <div class="flex flex-col self-center ml-4">
                             <span>{{ track.name }}</span>
                             <span class="text-sm">{{ track.albumName }}</span>
@@ -52,6 +62,9 @@
 </template>
 <script setup lang="ts">
 import { Playlist } from "@/Types/Playlist";
+import { ref } from "vue";
+
+const selectedTracks = ref([]);
 
 defineProps<{
     playlists: Playlist[];
