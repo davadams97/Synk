@@ -12,8 +12,16 @@
 
         <template v-slot:footer>
             <Link
+                :href="route(transferRoute)"
                 class="inline-flex items-center px-5 py-3 text-base max-w-fit self-center font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
                 as="button"
+                method="post"
+                :data="{
+                    title: 'Test Playlist',
+                    name: selectedTracks,
+                    currentProvider: source,
+                    targetProvider: target,
+                }"
             >
                 Start Transfer
                 <svg
@@ -46,7 +54,12 @@ import { ref } from "vue";
 defineProps<{
     playlists: Playlist[];
     header: string;
+    transferRoute: string;
 }>();
+
+const searchParams = new URLSearchParams(window.location.search);
+const source = searchParams.get("source");
+const target = searchParams.get("target");
 
 const selectedTracks = ref([]);
 </script>

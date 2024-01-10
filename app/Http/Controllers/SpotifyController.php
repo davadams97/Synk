@@ -38,7 +38,8 @@ class SpotifyController extends Controller
 
         return inertia('Provider/Index', [
             'playlists' => $playlists,
-            'header' => "Playlists ({$playlistLength})"
+            'header' => "Playlists ({$playlistLength})",
+            'transferRoute' => "spotify.playlist.transfer"
         ]);
     }
 
@@ -47,7 +48,7 @@ class SpotifyController extends Controller
         $strategy = $request['targetProvider'];
         $transferStrategy = TransferStrategyFactory::create($strategy);
 
-        if ($strategy == 'ytmusic') {
+        if ($strategy == 'ytMusic') {
             $transferStrategy->setService(new YoutubeMusicService());
         }
 
