@@ -36,7 +36,7 @@
                             class="mr-2.5 rounded focus:ring-0 text-purple-900 flex self-center"
                             type="checkbox"
                             :value="track.name"
-                            v-model="selectedTracks"
+                            v-model="model"
                         />
                         <img
                             :src="track.albumArt"
@@ -62,12 +62,11 @@
 </template>
 <script setup lang="ts">
 import { Playlist } from "@/Types/Playlist";
-import { ref } from "vue";
-
-const selectedTracks = ref([]);
 
 defineProps<{
     playlists: Playlist[];
     header: string;
 }>();
+
+const model = defineModel({ type: Array, default: [] });
 </script>

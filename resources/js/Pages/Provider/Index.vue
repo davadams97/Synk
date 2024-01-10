@@ -1,7 +1,12 @@
 <template>
     <container>
         <template v-slot:main>
-            <data-table class="w-full" :header="header" :playlists="playlists">
+            <data-table
+                class="w-full"
+                :header="header"
+                :playlists="playlists"
+                v-model="selectedTracks"
+            >
             </data-table>
         </template>
 
@@ -36,9 +41,12 @@ import DataTable from "@/Components/DataTable.vue";
 import Container from "@/Components/Container.vue";
 import { Link } from "@inertiajs/vue3";
 import { Playlist } from "@/Types/Playlist";
+import { ref } from "vue";
 
 defineProps<{
     playlists: Playlist[];
     header: string;
 }>();
+
+const selectedTracks = ref([]);
 </script>
