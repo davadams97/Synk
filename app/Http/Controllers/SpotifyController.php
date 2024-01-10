@@ -46,6 +46,9 @@ class SpotifyController extends Controller
     public function store(Request $request)
     {
         $strategy = $request['targetProvider'];
+
+        // TODO: handle case when target provider is not provided
+
         $transferStrategy = TransferStrategyFactory::create($strategy);
 
         if ($strategy == 'ytMusic') {

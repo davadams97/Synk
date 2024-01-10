@@ -58,8 +58,8 @@ defineProps<{
 }>();
 
 const searchParams = new URLSearchParams(window.location.search);
-const source = searchParams.get("source");
-const target = searchParams.get("target");
+const source = searchParams.has("source") ?? searchParams.get("source");
+const target = searchParams.has("target") ?? searchParams.get("target");
 
 const selectedTracks = ref([]);
 </script>
