@@ -17,7 +17,7 @@
                 as="button"
                 method="post"
                 :data="{
-                    title: 'Test Playlist',
+                    title: 'Synk generated playlist',
                     name: selectedTracks,
                     currentProvider: source,
                     targetProvider: target,
