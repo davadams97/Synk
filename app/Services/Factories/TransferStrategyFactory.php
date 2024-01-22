@@ -13,7 +13,7 @@ class TransferStrategyFactory
         switch ($strategyType) {
             case 'spotify':
                 return new TransferToSpotify();
-            case 'ytmusic':
+            case 'ytMusic':
                 return new TransferToYTMusic();
         }
     }
