@@ -21,11 +21,13 @@ class SpotifyController extends Controller
             fn ($playlist) => [
                 'id' => $playlist['id'],
                 'name' => $playlist['name'],
+                'href' => $playlist['uri'],
                 'coverURL' => count($playlist['images']) ? $playlist['images'][0]['url'] : Storage::url('no_art.png'),
                 'tracks' => array_map(
                     fn ($entry) => [
                         'id' => $entry['track']['id'],
                         'name' => $entry['track']['name'],
+                        'href' => $entry['track']['uri'],
                         'albumName' => $entry['track']['album']['name'],
                         'albumArt' => $entry['track']['album']['images'][0]['url']
                     ],
