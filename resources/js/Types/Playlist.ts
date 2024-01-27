@@ -3,6 +3,7 @@ export interface Track {
     name: string;
     albumName: string;
     albumArt: string;
+    href: string;
 }
 
 export interface Playlist {

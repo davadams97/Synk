@@ -16,16 +16,18 @@
                             type="checkbox"
                         />
 
-                        <img
-                            :src="playlist.coverURL"
-                            alt="album art"
-                            width="52"
-                            height="52"
-                        />
+                        <a :href="playlist.href">
+                            <img
+                                :src="playlist.coverURL"
+                                alt="album art"
+                                width="52"
+                                height="52"
+                            />
+                        </a>
 
-                        <span class="ml-4">{{
+                        <a class="ml-4" :href="playlist.href">{{
                             playlist.name || "Not Available"
-                        }}</span>
+                        }}</a>
                     </span>
 
                     <div
@@ -38,15 +40,18 @@
                             :value="track.name"
                             v-model="model"
                         />
-                        <img
-                            :src="track.albumArt"
-                            alt="album art"
-                            width="52"
-                            height="52"
-                        />
+                        <a :href="track.href">
+                            <img
+                                :src="track.albumArt"
+                                :ref
+                                alt="album art"
+                                width="52"
+                                height="52"
+                            />
+                        </a>
                         <div class="flex flex-col self-center ml-4">
-                            <span>{{ track.name }}</span>
-                            <span class="text-sm">{{ track.albumName }}</span>
+                            <a :href="track.href">{{ track.name }}</a>
+                            <a :href="track.href" class="text-sm">{{ track.albumName }}</a>
                         </div>
                     </div>
                 </td>
