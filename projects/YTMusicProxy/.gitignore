@@ -1,0 +1,8 @@
+<<<<<<< HEAD
+=======
+.venv
+__pycache__
+oauth.json
+>>>>>>> YTMusicProxy/chore/move-to-monorepo
+
+.idea/
