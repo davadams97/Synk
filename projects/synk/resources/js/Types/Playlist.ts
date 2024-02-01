@@ -10,6 +10,7 @@ export interface Playlist {
     id: string | number;
     coverURL: string;
     name: string;
+    isSelected: boolean;
     tracks: Track[];
 }
 

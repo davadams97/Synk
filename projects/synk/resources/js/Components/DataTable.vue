@@ -76,7 +76,13 @@ const props = defineProps<{
 const model = defineModel({ type: Array, default: [] });
 function updateSongSelection(id) {
     let matchingPlaylist = props.playlists.find(playlist => playlist.id === id);
-    matchingPlaylist.tracks.forEach(track => model.value.push(track.name))
-}
+    matchingPlaylist.isSelected = !matchingPlaylist.isSelected;
 
+    if (matchingPlaylist.isSelected) {
+        matchingPlaylist.tracks.forEach(track => model.value.push(track.name));
+    }
+    else {
+        matchingPlaylist.tracks.forEach(track => (model.value = model.value.filter(name => name !== track.name)))
+    }
+}
 </script>
