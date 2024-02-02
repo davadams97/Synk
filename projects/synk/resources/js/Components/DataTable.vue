@@ -73,16 +73,17 @@ const props = defineProps<{
     header: string;
 }>();
 
-const model = defineModel({ type: Array, default: [] });
+const model = defineModel({ default: new Set() });
 function updateSongSelection(id) {
-    let matchingPlaylist = props.playlists.find(playlist => playlist.id === id);
+    let matchingPlaylist = props.playlists.find(
+        (playlist) => playlist.id === id,
+    );
     matchingPlaylist.isSelected = !matchingPlaylist.isSelected;
 
-    if (matchingPlaylist.isSelected) {
-        matchingPlaylist.tracks.forEach(track => model.value.push(track.name));
-    }
-    else {
-        matchingPlaylist.tracks.forEach(track => (model.value = model.value.filter(name => name !== track.name)))
-    }
+    matchingPlaylist.tracks.forEach((track) =>
+        matchingPlaylist.isSelected
+            ? model.value.add(track.name)
+            : model.value.delete(track.name),
+    );
 }
 </script>
