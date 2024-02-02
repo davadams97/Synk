@@ -23,7 +23,7 @@
                     targetProvider: target,
                 }"
             >
-                Start Transfer
+                {{`Start Transfer (${selectedTracks.size})`}}
                 <svg
                     aria-hidden="true"
                     class="w-3.5 h-3.5 ms-2 rtl:rotate-180"
@@ -61,5 +61,5 @@ const searchParams = new URLSearchParams(window.location.search);
 const source = searchParams.has("source") ? searchParams.get("source") : null;
 const target = searchParams.has("target") ? searchParams.get("target") : null;
 
-const selectedTracks = ref([]);
+const selectedTracks = ref(new Set());
 </script>
