@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
+use Inertia\ResponseFactory;
 
 class TransferController extends Controller
 {
@@ -39,9 +41,13 @@ class TransferController extends Controller
             ]);
     }
 
-    public function target(Request $request): Response
+    public function target(Request $request): Response|ResponseFactory|RedirectResponse
     {
         $sourceProvider = $request['source'];
+
+        if (!$sourceProvider) {
+            return redirect()->route('transfer.source');
+        }
 
         // Store the last route and query params since Spotify and YouTube authorization happens outside app domain
         session(['lastRoute' => 'transfer.target', 'queryParams' => 'source='.$sourceProvider]);
