@@ -14,6 +14,7 @@
                         <input
                             class="mr-2.5 rounded focus:ring-0 text-purple-900"
                             type="checkbox"
+                            @change="updateSongSelection(playlist.id)"
                         />
 
                         <a :href="playlist.href">
@@ -43,7 +44,6 @@
                         <a :href="track.href">
                             <img
                                 :src="track.albumArt"
-                                :ref
                                 alt="album art"
                                 width="52"
                                 height="52"
@@ -68,10 +68,22 @@
 <script setup lang="ts">
 import { Playlist } from "@/Types/Playlist";
 
-defineProps<{
+const props = defineProps<{
     playlists: Playlist[];
     header: string;
 }>();
 
-const model = defineModel({ type: Array, default: [] });
+const model = defineModel({ default: new Set() });
+function updateSongSelection(id) {
+    let matchingPlaylist = props.playlists.find(
+        (playlist) => playlist.id === id,
+    );
+    matchingPlaylist.isSelected = !matchingPlaylist.isSelected;
+
+    matchingPlaylist.tracks.forEach((track) =>
+        matchingPlaylist.isSelected
+            ? model.value.add(track.name)
+            : model.value.delete(track.name),
+    );
+}
 </script>

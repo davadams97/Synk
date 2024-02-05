@@ -21,6 +21,7 @@ class YoutubeController extends Controller
             fn ($playlist) => [
                 'id' => $playlist['playlistId'],
                 'name' => $playlist['title'],
+                'isSelected' => False,
                 'coverURL' => count($playlist['thumbnails']) ? $playlist['thumbnails'][0]['url'] : Storage::url('no_art.png'),
                 'tracks' => array_map(
                     fn ($entry) => [
