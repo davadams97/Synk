@@ -33,7 +33,7 @@
 
             <Link
                 :href="route('transfer.source')"
-                class="inline-flex items-center px-5 py-3 text-base max-w-fit self-center font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+                class="inline-flex items-center px-5 py-3 text-base max-w-fit self-center font-medium text-center hover:bg-white/10 text-white rounded-full border border-fuchsia-500"
             >
                 Let's get started
                 <svg
