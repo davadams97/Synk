@@ -1,7 +1,7 @@
 <template>
     <div class="bg-transparent rounded-md overflow-x-auto">
         <table class="w-full whitespace-nowrap text-white">
-            <tr class="text-left font-bold sticky">
+            <tr class="text-left font-thin sticky">
                 <th class="pb-4 pt-6">
                     {{ header }}
                 </th>

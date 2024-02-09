@@ -1,7 +1,7 @@
 <template>
     <container>
         <template v-slot:header>
-            <h2 class="text-center font-bold text-3xl text-slate-200">
+            <h2 class="text-center font-thin text-3xl text-slate-200">
                 {{ header }}
             </h2>
         </template>
