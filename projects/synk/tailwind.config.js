@@ -13,8 +13,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                custom: ['Circular', 'custom-font', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
-                // sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                // custom: ['Circular', 'custom-font', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+                sans: ['"Inter Tight"', 'sans-serif'],
             },
         },
     },
