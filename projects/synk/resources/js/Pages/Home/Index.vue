@@ -1,39 +1,26 @@
 <template>
-    <div class="flex items-center p-10">
-        <h1
-            class="flex items-end flex-col mb-4 text-right text-4xl font-bold leading-none tracking-tight md:text-5xl lg:text-6xl text-slate-200"
-        >
-            <span class="w-max pb-2 text-right">Your Playlist</span>
-            <span class="w-max pb-2">Your Rules</span>
-            <span class="w-max pb-2">Any Platform!</span>
-        </h1>
-
-        <div class="flex flex-col">
-            <h3
-                class="text-center mb-4 text-ld font-bold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"
-            >
-                Get started with
-
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400"
+    <section class="h-screen w-full">
+        <div class="flex items-center justify-evenly flex-col p-10 h-full overflow-auto">       
+            <div>
+                <h1
+                    class="text-center mb-4 text-6xl font-bold text-gray-900 dark:text-white "
                 >
-                    Synk
-                </span>
-            </h3>
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400"
+                    >
+                        Synk
+                    </span>
+                </h1>
 
-            <p
-                class="mb-6 text-lg font-normal text-white lg:text-xl sm:px-16 xl:px-48"
-            >
-                Sync your tunes effortlessly across platforms with Synk. Groove
-                on Spotify, vibe on Apple Music, or jam on any platform – Synk
-                makes it easy. Your playlist deserves to dance everywhere,
-                effortlessly. Unleash the power of Synk and take your music
-                anywhere life's rhythm takes you!
-            </p>
+                <p class="flex items-end flex-col mb-2 font-thin tracking-tight leading-none text-6xl text-slate-200">
+                    <span class="w-max pb-2">Your Playlist, Your Rules, Any Platform!</span>
+                    
+                </p>
+            </div>
 
             <Link
                 :href="route('transfer.source')"
-                class="inline-flex items-center px-5 py-3 text-base max-w-fit self-center font-medium text-center text-white bg-purple-700 rounded-lg hover:bg-purple-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+                class="inline-flex items-center px-5 py-3 text-base max-w-fit self-center font-medium text-center hover:bg-white/10 text-white rounded-full border border-fuchsia-500"
             >
                 Let's get started
                 <svg
@@ -53,7 +40,21 @@
                 </svg>
             </Link>
         </div>
-    </div>
+    </section>
+
+    <section class="w-full m-16">
+        <div>
+            <p
+            class="indent-32 mb-6 font-thin text-4xl text-white"
+            >
+                Sync your tunes effortlessly across platforms with Synk. Groove
+                on Spotify, vibe on Apple Music, or jam on any platform – Synk
+                makes it easy. Your playlist deserves to dance everywhere,
+                effortlessly. Unleash the power of Synk and take your music
+                anywhere life's rhythm takes you!
+            </p>
+        </div>
+    </section>
 </template>
 
 <script setup>
