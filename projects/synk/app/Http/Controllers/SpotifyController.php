@@ -23,16 +23,17 @@ class SpotifyController extends Controller
                 'name' => $playlist['name'],
                 'isSelected' => False,
                 'href' => $playlist['uri'],
-                'coverURL' => count($playlist['images']) ? $playlist['images'][0]['url'] : Storage::url('no_art.png'),
+                'coverURL' => $playlist['images'] && count($playlist['images']) ? $playlist['images'][0]['url'] : Storage::url('no_art.png'),
                 'tracks' => array_map(
                     fn ($entry) => [
-                        'id' => $entry['track']['id'],
-                        'name' => $entry['track']['name'],
-                        'href' => $entry['track']['uri'],
-                        'albumName' => $entry['track']['album']['name'],
-                        'albumArt' => $entry['track']['album']['images'][0]['url']
+                        'id' => $entry['track']['id'] ?? null,
+                        'name' => $entry['track']['name'] ?? 'Unknown Track',
+                        'href' => $entry['track']['uri'] ?? '#',
+                        'albumName' => $entry['track']['album']['name'] ?? 'Unknown Album',
+                        'albumArt' => $entry['track']['album']['images'][0]['url'] ?? Storage::url('no_art.png'),
                     ],
-                    $this->spotifyService->getPlaylistTracks($playlist['id'])),
+                    $this->spotifyService->getPlaylistTracks($playlist['id'])
+                ),
             ],
             $this->spotifyService->getPlaylists()
         );
