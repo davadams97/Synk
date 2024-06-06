@@ -25,9 +25,9 @@ class YoutubeController extends Controller
                 'coverURL' => count($playlist['thumbnails']) ? $playlist['thumbnails'][0]['url'] : Storage::url('no_art.png'),
                 'tracks' => array_map(
                     fn ($entry) => [
-                        'id' => $entry['videoId'],
-                        'name' => $entry['title'],
-                        'albumName' => $entry['album']['name'] ?? '',
+                        'id' => $entry['videoId'] ?? null,
+                        'name' => $entry['title'] ?? 'Unknown Track',
+                        'albumName' => $entry['album']['name'] ?? 'Unknown Album',
                         'albumArt' => count($entry['thumbnails']) ? $entry['thumbnails'][0]['url'] : Storage::url('no_art.png')
                     ],
                     $this->youtubeMusicService->getPlaylist($playlist['playlistId'])['tracks']),
