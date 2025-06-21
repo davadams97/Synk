@@ -12,6 +12,24 @@ a thing of the past.
 Let Synk take care of seamlessly 
 transferring your playlists for you!
 
+## Running the Servers
+
+### Synk (Laravel Application)
+```bash
+cd projects/synk
+composer install
+npm install
+php artisan serve
+npm run dev
+```
+
+### YTMusicProxy (Flask API)
+```bash
+cd projects/ytmusicproxy
+pip install -r requirements.txt
+flask run
+```
+
 ## Inspiration
 I wanted to build and deploy an application with the technology
 stack that I am currently using. I wanted to build an application 
