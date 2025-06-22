@@ -24,16 +24,8 @@ class SpotifyController extends Controller
                 'isSelected' => False,
                 'href' => $playlist['uri'],
                 'coverURL' => $playlist['images'] && count($playlist['images']) ? $playlist['images'][0]['url'] : Storage::url('no_art.png'),
-                'tracks' => array_map(
-                    fn ($entry) => [
-                        'id' => $entry['track']['id'] ?? null,
-                        'name' => $entry['track']['name'] ?? 'Unknown Track',
-                        'href' => $entry['track']['uri'] ?? '#',
-                        'albumName' => $entry['track']['album']['name'] ?? 'Unknown Album',
-                        'albumArt' => $entry['track']['album']['images'][0]['url'] ?? Storage::url('no_art.png'),
-                    ],
-                    $this->spotifyService->getPlaylistTracks($playlist['id'])
-                ),
+                'trackCount' => $playlist['tracks']['total'] ?? 0,
+                'tracks' => [], // Empty initially, will be loaded on demand
             ],
             $this->spotifyService->getPlaylists()
         );
@@ -45,6 +37,22 @@ class SpotifyController extends Controller
             'header' => "Playlists ({$playlistLength})",
             'transferRoute' => "spotify.playlist.transfer"
         ]);
+    }
+
+    public function getPlaylistTracks(Request $request, $playlistId)
+    {
+        $tracks = array_map(
+            fn ($entry) => [
+                'id' => $entry['track']['id'] ?? null,
+                'name' => $entry['track']['name'] ?? 'Unknown Track',
+                'href' => $entry['track']['uri'] ?? '#',
+                'albumName' => $entry['track']['album']['name'] ?? 'Unknown Album',
+                'albumArt' => $entry['track']['album']['images'][0]['url'] ?? Storage::url('no_art.png'),
+            ],
+            $this->spotifyService->getPlaylistTracks($playlistId)
+        );
+
+        return response()->json(['tracks' => $tracks]);
     }
 
     public function store(Request $request)
