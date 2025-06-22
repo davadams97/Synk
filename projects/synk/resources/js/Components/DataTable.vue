@@ -133,14 +133,14 @@
                                 <label class="flex items-center justify-center cursor-pointer">
                                     <input 
                                         type="checkbox" 
-                                        :value="track.name" 
+                                        :value="String(track.id)" 
                                         v-model="model"
                                         class="sr-only"
                                     />
                                     <div class="relative">
                                         <div class="w-5 h-5 rounded-md border-2 border-white/30 group-hover:border-purple-400 transition-all duration-200 flex items-center justify-center">
                                             <svg 
-                                                v-if="model.has(track.name)"
+                                                v-if="model.has(String(track.id))"
                                                 class="w-3 h-3 text-white relative z-10" 
                                                 fill="currentColor" 
                                                 viewBox="0 0 20 20"
@@ -149,7 +149,7 @@
                                             </svg>
                                         </div>
                                         <div 
-                                            v-if="model.has(track.name)"
+                                            v-if="model.has(String(track.id))"
                                             class="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-md opacity-100 transition-opacity duration-200"
                                         ></div>
                                     </div>
@@ -221,14 +221,14 @@ const filteredTracks = computed(() => {
 });
 
 const allSelected = computed(() =>
-    filteredTracks.value.length > 0 && filteredTracks.value.every(track => model.value.has(track.name))
+    filteredTracks.value.length > 0 && filteredTracks.value.every(track => model.value.has(String(track.id)))
 );
 
 function toggleSelectAll() {
     if (allSelected.value) {
-        filteredTracks.value.forEach(track => model.value.delete(track.name));
+        filteredTracks.value.forEach(track => model.value.delete(String(track.id)));
     } else {
-        filteredTracks.value.forEach(track => model.value.add(track.name));
+        filteredTracks.value.forEach(track => model.value.add(String(track.id)));
     }
 }
 
