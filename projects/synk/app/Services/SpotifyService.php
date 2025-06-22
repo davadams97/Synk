@@ -48,28 +48,56 @@ class SpotifyService
 
     public function searchTracks($query, $artist = null, $album = null, $year = null)
     {
+        // Clean and validate the query
+        $query = trim($query);
+        if (empty($query)) {
+            return [];
+        }
+
         // Build a more comprehensive search query
         $searchQuery = $query;
         
         if ($artist) {
-            $searchQuery .= " artist:$artist";
+            $artist = trim($artist);
+            if (!empty($artist)) {
+                $searchQuery .= " artist:$artist";
+            }
         }
         
         if ($album) {
-            $searchQuery .= " album:$album";
+            $album = trim($album);
+            if (!empty($album)) {
+                $searchQuery .= " album:$album";
+            }
         }
         
         if ($year) {
-            $searchQuery .= " year:$year";
+            $year = trim($year);
+            if (!empty($year) && is_numeric($year)) {
+                $searchQuery .= " year:$year";
+            }
         }
-        
-        return Http::spotify()->get(
-            '/search',
-            [
-                'q' => $searchQuery,
-                'type' => 'track',
-            ]
-        )['tracks']['items'];
+
+        try {
+            $response = Http::spotify()->get(
+                '/search',
+                [
+                    'q' => $searchQuery,
+                    'type' => 'track',
+                    'limit' => 20, // Increase limit for better matching
+                ]
+            );
+
+            if ($response->successful()) {
+                $data = $response->json();
+                $tracks = $data['tracks']['items'] ?? [];
+                return $tracks;
+            } else {
+                return [];
+            }
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 
     public function unfollowPlaylist($playlistId)
