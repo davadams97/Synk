@@ -23,7 +23,7 @@ class SpotifyService
 
     public function getPlaylistTracks($playlistId)
     {
-        $queryParams = ['fields' => 'items(track(name,id,uri,album(name, images)))'];
+        $queryParams = ['fields' => 'items(track(name,id,uri,artists(name),album(name, images)))'];
 
         return Http::spotify()->get('/playlists/'.$playlistId.'/tracks', $queryParams)['items'];
     }
@@ -46,12 +46,27 @@ class SpotifyService
         );
     }
 
-    public function searchTracks($query)
+    public function searchTracks($query, $artist = null, $album = null, $year = null)
     {
+        // Build a more comprehensive search query
+        $searchQuery = $query;
+        
+        if ($artist) {
+            $searchQuery .= " artist:$artist";
+        }
+        
+        if ($album) {
+            $searchQuery .= " album:$album";
+        }
+        
+        if ($year) {
+            $searchQuery .= " year:$year";
+        }
+        
         return Http::spotify()->get(
             '/search',
             [
-                'q' => $query,
+                'q' => $searchQuery,
                 'type' => 'track',
             ]
         )['tracks']['items'];

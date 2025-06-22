@@ -21,6 +21,7 @@ Route::name('home')->get('/', [HomePageController::class, 'index']);
 Route::name('transfer')->group(function () {
     Route::name('.source')->get('/transfer/source', [TransferController::class, 'source']);
     Route::name('.target')->get('/transfer/target', [TransferController::class, 'target']);
+    Route::name('.progress')->post('/transfer/progress', [TransferController::class, 'progress']);
 });
 
 Route::middleware(EnsureSpotifyTokenIsValid::class)->name('spotify')->group(function () {
@@ -56,30 +57,51 @@ Route::middleware(EnsureSpotifyTokenIsValid::class)->name('spotify')->group(func
         $state = $request->session()->pull('state');
         $codeVerifier = $request->session()->pull('code_verifier');
 
-        throw_unless(
-            strlen($state) > 0 && $state === $request->state,
-            InvalidArgumentException::class
-        );
+        // Validate state parameter
+        if (empty($state) || $state !== $request->get('state')) {
+            return redirect()->route('home')->with('error', 'Invalid state parameter');
+        }
 
-        $response = Http::asForm()->post('https://accounts.spotify.com/api/token', [
-            'grant_type' => 'authorization_code',
-            'client_id' => env('SPOTIFY_CLIENT_ID'),
-            'redirect_uri' => 'http://localhost:8000/spotify/auth/access-token',
-            'code_verifier' => $codeVerifier,
-            'code' => $request->code,
-        ]);
+        // Validate code parameter
+        if (!$request->has('code')) {
+            return redirect()->route('home')->with('error', 'Authorization code not received');
+        }
 
-        session()->forget(['state','code_verifier']);
+        try {
+            $response = Http::asForm()->post('https://accounts.spotify.com/api/token', [
+                'grant_type' => 'authorization_code',
+                'client_id' => env('SPOTIFY_CLIENT_ID'),
+                'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
+                'redirect_uri' => 'http://localhost:8000/spotify/auth/access-token',
+                'code_verifier' => $codeVerifier,
+                'code' => $request->get('code'),
+            ]);
 
-        session(
-            [
-                'spotifyAccessToken' => $response->json('access_token'),
-                'spotifyRefreshToken' => $response->json('refresh_token'),
-                'spotifyExpiresAt' => now()->addSeconds($response->json('expires_in'))->timestamp,
-            ]
-        );
+            if (!$response->successful()) {
+                return redirect()->route('home')->with('error', 'Failed to exchange authorization code');
+            }
 
-        return redirect()->route(session('lastRoute'),session('queryParams'));
+            $responseData = $response->json();
+
+            // Clear any existing session data
+            session()->forget(['state', 'code_verifier']);
+
+            // Store the tokens in session
+            session([
+                'spotifyAccessToken' => $responseData['access_token'],
+                'spotifyRefreshToken' => $responseData['refresh_token'] ?? null,
+                'spotifyExpiresAt' => now()->addSeconds($responseData['expires_in'])->timestamp,
+            ]);
+
+            // Redirect back to the original route or home
+            $lastRoute = session('lastRoute', 'home');
+            $queryParams = session('queryParams', []);
+            
+            return redirect()->route($lastRoute, $queryParams);
+
+        } catch (\Exception $e) {
+            return redirect()->route('home')->with('error', 'Authentication failed: ' . $e->getMessage());
+        }
     });
 });
 

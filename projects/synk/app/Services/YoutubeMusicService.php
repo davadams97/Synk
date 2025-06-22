@@ -40,10 +40,25 @@ class YoutubeMusicService
         ]);
     }
 
-    public function searchTracks($query)
+    public function searchTracks($query, $artist = null, $album = null, $year = null)
     {
+        // Build a more comprehensive search query
+        $searchQuery = $query;
+        
+        if ($artist) {
+            $searchQuery .= " artist:$artist";
+        }
+        
+        if ($album) {
+            $searchQuery .= " album:$album";
+        }
+        
+        if ($year) {
+            $searchQuery .= " year:$year";
+        }
+        
         return Http::ytmusic()->get('/search', [
-            'query' => $query,
+            'query' => $searchQuery,
         ]);
     }
 }
