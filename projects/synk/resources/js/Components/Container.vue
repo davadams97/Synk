@@ -8,7 +8,7 @@
         </div>
 
         <!-- Main content -->
-        <div class="relative z-10 flex flex-col min-h-screen px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+        <div class="relative z-10 flex flex-col min-h-screen px-4 sm:px-6 lg:px-8 pt-32 pb-16">
             <!-- Header -->
             <div class="text-center mb-8">
                 <slot name="header"></slot>

@@ -28,7 +28,7 @@
                                     ]"
                                 ></div>
                                 <span class="text-green-300 font-medium">
-                                    {{ isCompleted ? 'Transfer completed successfully!' : 'Transfer in progress...' }}
+                                    {{ getCompletionMessage() }}
                                 </span>
                             </div>
                             
@@ -37,7 +37,7 @@
                                     {{ selectedTracksSet.size }} tracks
                                 </h3>
                                 <p class="text-gray-400">
-                                    {{ isCompleted ? 'Successfully transferred to ' + target : 'Estimated time: ' + estimatedTime }}
+                                    {{ getCompletionDescription() }}
                                 </p>
                             </div>
                         </div>
@@ -150,7 +150,7 @@
                     </div>
 
                     <!-- Failed Tracks Section -->
-                    <div v-if="props.failedTracks.length > 0" class="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-8">
+                    <div v-if="isCompleted && props.failedTracks.length > 0" class="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-8">
                         <div class="space-y-4">
                             <h3 class="text-xl font-semibold text-white text-center flex items-center justify-center space-x-2">
                                 <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -208,6 +208,7 @@ import ProgressBar from "@/Components/ProgressBar.vue";
 import Notification from "@/Components/Notification.vue";
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { router } from "@inertiajs/vue3";
+import { addTransfer } from "@/stores/notificationStore";
 
 const props = defineProps<{
     selectedTracks: any; // Laravel Collection
@@ -283,16 +284,77 @@ function completeTransfer() {
     // Set completion state
     isCompleted.value = true;
     
-    // Show success notification
+    // Add transfer to notification store if successful
+    const successfulCount = selectedTracksSet.value.size - props.failedTracks.length;
+    if (successfulCount > 0) {
+        const transferData = {
+            source: props.source,
+            target: props.target,
+            tracks: Array.from(selectedTracksSet.value),
+            failedTracks: props.failedTracks,
+            status: props.failedTracks.length > 0 ? 'partial' : 'completed'
+        };
+        addTransfer(transferData);
+    }
+    
+    // Show appropriate notification based on results
     setTimeout(() => {
         showNotification.value = true;
-        notificationMessage.value = `Successfully transferred ${selectedTracksSet.value.size} tracks to ${props.target}!`;
-        notificationType.value = "success";
+        if (props.failedTracks.length > 0) {
+            const successfulCount = selectedTracksSet.value.size - props.failedTracks.length;
+            if (successfulCount === 0) {
+                notificationMessage.value = `No tracks could be found on ${props.target}`;
+                notificationType.value = "error";
+            } else if (successfulCount === 1) {
+                notificationMessage.value = `1 track transferred to ${props.target}`;
+                notificationType.value = "success";
+            } else {
+                notificationMessage.value = `${successfulCount} tracks transferred to ${props.target}`;
+                notificationType.value = "success";
+            }
+        } else {
+            notificationMessage.value = `Successfully transferred ${selectedTracksSet.value.size} tracks to ${props.target}!`;
+            notificationType.value = "success";
+        }
     }, 1000);
 }
 
 function transferMoreSongs() {
     router.visit(route('transfer.target', { source: props.source }));
+}
+
+function getCompletionMessage() {
+    if (!isCompleted.value) {
+        return 'Transfer in progress...';
+    }
+    if (props.failedTracks.length > 0) {
+        const successfulCount = selectedTracksSet.value.size - props.failedTracks.length;
+        if (successfulCount === 0) {
+            return "Transfer incomplete - no tracks found";
+        } else if (successfulCount === 1) {
+            return "Transfer completed with 1 track transferred";
+        } else {
+            return `Transfer completed with ${successfulCount} tracks transferred`;
+        }
+    }
+    return "Transfer completed successfully!";
+}
+
+function getCompletionDescription() {
+    if (!isCompleted.value) {
+        return 'Estimated time: ' + estimatedTime.value;
+    }
+    if (props.failedTracks.length > 0) {
+        const successfulCount = selectedTracksSet.value.size - props.failedTracks.length;
+        if (successfulCount === 0) {
+            return `None of the ${selectedTracksSet.value.size} tracks could be found on ${props.target}`;
+        } else if (successfulCount === 1) {
+            return `1 of ${selectedTracksSet.value.size} tracks transferred to ${props.target}`;
+        } else {
+            return `${successfulCount} of ${selectedTracksSet.value.size} tracks transferred to ${props.target}`;
+        }
+    }
+    return `Successfully transferred ${selectedTracksSet.value.size} tracks to ${props.target}`;
 }
 
 onMounted(() => {
