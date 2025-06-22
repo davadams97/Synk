@@ -46,6 +46,7 @@ class YoutubeController extends Controller
             fn ($entry) => [
                 'id' => $entry['videoId'] ?? null,
                 'name' => $entry['title'] ?? 'Unknown Track',
+                'artist' => $entry['artists'][0]['name'] ?? 'Unknown Artist',
                 'albumName' => $entry['album']['name'] ?? 'Unknown Album',
                 'albumArt' => count($entry['thumbnails']) ? $entry['thumbnails'][0]['url'] : Storage::url('no_art.png')
             ],

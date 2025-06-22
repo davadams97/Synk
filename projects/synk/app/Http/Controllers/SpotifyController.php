@@ -45,6 +45,7 @@ class SpotifyController extends Controller
             fn ($entry) => [
                 'id' => $entry['track']['id'] ?? null,
                 'name' => $entry['track']['name'] ?? 'Unknown Track',
+                'artist' => $entry['track']['artists'][0]['name'] ?? 'Unknown Artist',
                 'href' => $entry['track']['uri'] ?? '#',
                 'albumName' => $entry['track']['album']['name'] ?? 'Unknown Album',
                 'albumArt' => $entry['track']['album']['images'][0]['url'] ?? Storage::url('no_art.png'),
