@@ -21,7 +21,7 @@ Route::name('home')->get('/', [HomePageController::class, 'index']);
 Route::name('transfer')->group(function () {
     Route::name('.source')->get('/transfer/source', [TransferController::class, 'source']);
     Route::name('.target')->get('/transfer/target', [TransferController::class, 'target']);
-    Route::name('.progress')->post('/transfer/progress', [TransferController::class, 'progress']);
+    Route::middleware(EnsureSpotifyTokenIsValid::class)->name('.progress')->post('/transfer/progress', [TransferController::class, 'progress']);
 });
 
 Route::middleware(EnsureSpotifyTokenIsValid::class)->name('spotify')->group(function () {
