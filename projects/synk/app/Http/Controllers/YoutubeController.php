@@ -23,14 +23,8 @@ class YoutubeController extends Controller
                 'name' => $playlist['title'],
                 'isSelected' => False,
                 'coverURL' => count($playlist['thumbnails']) ? $playlist['thumbnails'][0]['url'] : Storage::url('no_art.png'),
-                'tracks' => array_map(
-                    fn ($entry) => [
-                        'id' => $entry['videoId'] ?? null,
-                        'name' => $entry['title'] ?? 'Unknown Track',
-                        'albumName' => $entry['album']['name'] ?? 'Unknown Album',
-                        'albumArt' => count($entry['thumbnails']) ? $entry['thumbnails'][0]['url'] : Storage::url('no_art.png')
-                    ],
-                    $this->youtubeMusicService->getPlaylist($playlist['playlistId'])['tracks']),
+                'trackCount' => $playlist['count'] ?? 0,
+                'tracks' => [], // Empty initially, will be loaded on demand
             ],
             $this->youtubeMusicService->getPlaylists()
         );
@@ -42,6 +36,23 @@ class YoutubeController extends Controller
             'header' => "Playlists ({$playlistLength})",
             'transferRoute' => "ytMusic.playlist.transfer"
         ]);
+    }
+
+    public function getPlaylistTracks(Request $request, $playlistId)
+    {
+        $playlist = $this->youtubeMusicService->getPlaylist($playlistId);
+        
+        $tracks = array_map(
+            fn ($entry) => [
+                'id' => $entry['videoId'] ?? null,
+                'name' => $entry['title'] ?? 'Unknown Track',
+                'albumName' => $entry['album']['name'] ?? 'Unknown Album',
+                'albumArt' => count($entry['thumbnails']) ? $entry['thumbnails'][0]['url'] : Storage::url('no_art.png')
+            ],
+            $playlist['tracks']
+        );
+
+        return response()->json(['tracks' => $tracks]);
     }
 
     public function store(Request $request, $playlistId)
